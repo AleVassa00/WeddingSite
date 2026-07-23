@@ -1,0 +1,467 @@
+.site:not(.is-open) {
+  height: 100svh;
+  overflow: hidden;
+}
+
+.invitation-gate {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: grid;
+  min-height: 100svh;
+  place-items: center;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 18% 14%, rgba(255, 255, 255, 0.72), transparent 28%),
+    radial-gradient(circle at 82% 80%, rgba(80, 103, 83, 0.16), transparent 34%),
+    linear-gradient(145deg, #e3e7df 0%, #cbd5c7 48%, #b8c5b5 100%);
+  transition:
+    opacity 0.75s ease,
+    visibility 0.75s ease;
+}
+
+.invitation-gate::before {
+  position: absolute;
+  inset: clamp(1rem, 3vw, 2.5rem);
+  border: 1px solid rgba(62, 81, 67, 0.17);
+  content: "";
+  pointer-events: none;
+}
+
+.invitation-gate::after {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse at center,
+    transparent 35%,
+    rgba(41, 56, 45, 0.11) 100%
+  );
+  content: "";
+  pointer-events: none;
+}
+
+.is-open .invitation-gate {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.gate-grain,
+.hero::after,
+.program::after {
+  position: absolute;
+  inset: 0;
+  content: "";
+  opacity: 0.1;
+  pointer-events: none;
+  background:
+    repeating-radial-gradient(circle at 12% 18%, #344338 0 0.35px, transparent 0.6px 5px),
+    repeating-radial-gradient(circle at 80% 60%, #fff 0 0.3px, transparent 0.55px 7px);
+  background-size: 17px 19px, 23px 29px;
+}
+
+.gate-copy {
+  position: absolute;
+  top: 6.5%;
+  z-index: 2;
+  text-align: center;
+  transition:
+    opacity 0.6s ease,
+    transform 0.8s ease;
+}
+
+.gate-copy .monogram {
+  margin-top: 0.8rem;
+  font-family: var(--font-display);
+}
+
+.gate-copy > p {
+  margin: 0.6rem 0 0;
+  font-family: var(--font-display);
+  font-size: clamp(1rem, 1.5vw, 1.2rem);
+  font-weight: 500;
+  letter-spacing: 0.2em;
+}
+
+.envelope {
+  position: relative;
+  z-index: 2;
+  width: min(84vw, 560px);
+  aspect-ratio: 1.52;
+  margin-top: 4.5rem;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  cursor: pointer;
+  perspective: 1400px;
+  transform-style: preserve-3d;
+  transition:
+    filter 0.45s ease,
+    transform 0.45s cubic-bezier(0.2, 0.8, 0.25, 1);
+}
+
+.envelope:not(:disabled):hover,
+.envelope:not(:disabled):focus-visible {
+  filter: brightness(1.02);
+  outline: none;
+  transform: translateY(-7px) rotateX(1deg);
+}
+
+.envelope:focus-visible::after {
+  position: absolute;
+  inset: -12px;
+  border: 1px solid var(--moss);
+  border-radius: 8px;
+  content: "";
+}
+
+.envelope:disabled {
+  cursor: default;
+}
+
+.envelope-shadow {
+  position: absolute;
+  right: 7%;
+  bottom: -8%;
+  left: 7%;
+  height: 20%;
+  border-radius: 50%;
+  background: rgba(31, 43, 35, 0.26);
+  filter: blur(20px);
+  transform: translateZ(-30px);
+  transition:
+    opacity 0.7s ease,
+    transform 0.9s ease;
+}
+
+.envelope-back,
+.envelope-lining,
+.envelope-front,
+.envelope-flap {
+  position: absolute;
+  inset: 0;
+}
+
+.envelope-back {
+  overflow: hidden;
+  border: 1px solid rgba(93, 83, 66, 0.15);
+  border-radius: 5px;
+  background:
+    linear-gradient(120deg, rgba(255, 255, 255, 0.17), transparent 36%),
+    linear-gradient(165deg, transparent 52%, rgba(24, 39, 28, 0.12)),
+    url("/textures/sage-handmade-paper-v1.webp") center / cover,
+    var(--envelope-back);
+  background-blend-mode: screen, multiply, soft-light, normal;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.3),
+    inset 0 -1px 0 rgba(28, 43, 31, 0.16),
+    0 30px 48px rgba(29, 43, 32, 0.24);
+}
+
+.envelope-lining {
+  z-index: 1;
+  clip-path: polygon(0 0, 100% 0, 50% 64%);
+  background:
+    radial-gradient(circle at 50% 16%, rgba(180, 153, 105, 0.34) 0 1px, transparent 1.5px)
+      0 0 / 14px 14px,
+    url("/textures/sage-handmade-paper-v1.webp") center / cover,
+    linear-gradient(135deg, #9ba995, #71836f);
+  background-blend-mode: screen, soft-light, normal;
+  filter: saturate(0.78);
+}
+
+.letter {
+  position: absolute;
+  right: 7%;
+  bottom: 5%;
+  left: 7%;
+  z-index: 2;
+  display: grid;
+  overflow: hidden;
+  height: 84%;
+  place-content: center;
+  border: 1px solid rgba(159, 132, 88, 0.35);
+  border-radius: 1px 2px 1px 0;
+  color: var(--moss);
+  background:
+    linear-gradient(rgba(255, 255, 255, 0.34), rgba(255, 255, 255, 0)),
+    repeating-linear-gradient(
+      96deg,
+      rgba(78, 65, 45, 0.018) 0 1px,
+      transparent 1px 6px
+    ),
+    var(--paper);
+  box-shadow:
+    0 8px 22px rgba(38, 47, 39, 0.18),
+    0 2px 4px rgba(38, 47, 39, 0.09),
+    inset 0 0 28px rgba(135, 109, 70, 0.055);
+  opacity: 0;
+  text-align: center;
+  transform-origin: bottom center;
+  transition: transform 0.65s cubic-bezier(0.2, 0.85, 0.3, 1);
+  will-change: transform;
+}
+
+.letter::before,
+.letter::after {
+  position: absolute;
+  content: "";
+  pointer-events: none;
+}
+
+.letter::before {
+  inset: 0;
+  opacity: 0.12;
+  background: url("/textures/sage-handmade-paper-v1.webp") center / cover;
+  filter: grayscale(1) contrast(1.45);
+  mix-blend-mode: multiply;
+}
+
+.letter::after {
+  inset: 8px;
+  border: 1px solid rgba(166, 139, 94, 0.25);
+}
+
+.letter > * {
+  position: relative;
+  z-index: 1;
+}
+
+.letter-ornament {
+  display: block;
+  margin-bottom: 0.7rem;
+  color: var(--gold);
+  font-size: 0.72rem;
+}
+
+.letter small {
+  margin-bottom: 0.42rem;
+  font-size: 0.62rem;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+.letter strong {
+  font-family: var(--font-display);
+  font-size: clamp(1.7rem, 5vw, 2.8rem);
+  font-style: italic;
+  font-weight: 500;
+  line-height: 1.05;
+}
+
+.letter-date {
+  margin-top: 0.9rem;
+  color: color-mix(in srgb, var(--moss) 72%, transparent);
+  font-family: var(--font-display);
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+}
+
+.envelope-front {
+  z-index: 4;
+  overflow: hidden;
+  border-radius: 0 0 5px 5px;
+  clip-path: polygon(0 38%, 50% 68%, 100% 38%, 100% 100%, 0 100%);
+  background:
+    linear-gradient(155deg, rgba(255, 255, 255, 0.08), transparent 36%),
+    url("/textures/sage-handmade-paper-v1.webp") center / cover,
+    var(--envelope-front);
+  background-blend-mode: screen, soft-light, normal;
+  filter: drop-shadow(0 -1px 0 rgba(39, 55, 42, 0.24));
+}
+
+.envelope-front::before,
+.envelope-front::after {
+  display: none;
+}
+
+.envelope-flap {
+  z-index: 5;
+  border-radius: 5px 5px 0 0;
+  clip-path: polygon(0 0, 100% 0, 50% 63%);
+  background:
+    linear-gradient(155deg, rgba(255, 255, 255, 0.2), transparent 43%),
+    linear-gradient(25deg, transparent 58%, rgba(30, 47, 34, 0.1)),
+    url("/textures/sage-handmade-paper-v1.webp") center / cover,
+    var(--envelope-paper);
+  background-blend-mode: screen, multiply, soft-light, normal;
+  filter: drop-shadow(0 3px 2px rgba(30, 45, 33, 0.2));
+  transform-origin: top center;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+.seal {
+  position: absolute;
+  top: 63%;
+  left: 50%;
+  z-index: 6;
+  display: grid;
+  width: 74px;
+  height: 74px;
+  place-items: center;
+  border: 0;
+  color: color-mix(in srgb, var(--moss) 84%, black);
+  background: url("/textures/ivory-wax-seal-v1.png") center / contain no-repeat;
+  filter:
+    drop-shadow(0 7px 6px rgba(32, 41, 33, 0.25))
+    drop-shadow(1px 2px 1px rgba(32, 41, 33, 0.14));
+  font-family: var(--font-display);
+  transform: translate(-50%, -50%) rotate(-5deg);
+  will-change: opacity, transform;
+}
+
+.seal::before {
+  display: none;
+}
+
+.seal::after {
+  display: none;
+}
+
+.seal-monogram {
+  position: relative;
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  font-size: 1.2rem;
+  font-style: italic;
+  font-weight: 600;
+  letter-spacing: -0.09em;
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.42);
+}
+
+.seal-monogram .ampersand {
+  z-index: 1;
+  margin-inline: 0.08em;
+  font-size: 0.48em;
+}
+
+.open-label {
+  position: absolute;
+  top: 78%;
+  left: 50%;
+  z-index: 7;
+  display: block;
+  width: max-content;
+  padding: 0.65rem 0;
+  color: var(--ink);
+  font-size: 0.66rem;
+  font-weight: 500;
+  letter-spacing: 0.24em;
+  pointer-events: none;
+  text-transform: uppercase;
+  transform: translateX(-50%);
+  transition:
+    opacity 0.35s ease,
+    transform 0.35s ease;
+}
+
+.open-label::after {
+  display: block;
+  width: 42%;
+  height: 1px;
+  margin: 0.55rem auto 0;
+  background: currentColor;
+  content: "";
+  transition: width 0.3s ease;
+}
+
+.invitation-gate--opening .gate-copy {
+  opacity: 0;
+  transform: translateY(-10px);
+}
+
+.invitation-gate--opening .open-label {
+  opacity: 0;
+  transform: translate(-50%, 8px);
+}
+
+.invitation-gate--opening .envelope {
+  animation: envelope-opening 3.2s cubic-bezier(0.2, 0.75, 0.25, 1) both;
+}
+
+.invitation-gate--opening .envelope-shadow {
+  opacity: 0.48;
+  transform: translateY(14px) scale(0.82);
+}
+
+.invitation-gate--opening .seal {
+  animation: seal-release 0.55s cubic-bezier(0.3, 0.8, 0.4, 1) both;
+}
+
+.invitation-gate--opening .envelope-flap {
+  animation: flap-open 1.15s 0.35s cubic-bezier(0.32, 0.02, 0.2, 1) both;
+}
+
+.invitation-gate--opening .letter {
+  animation: letter-rise 1.35s 1.45s cubic-bezier(0.16, 0.9, 0.25, 1) both;
+}
+
+@keyframes envelope-opening {
+  0% {
+    transform: translateY(0) scale(1);
+  }
+  18% {
+    transform: translateY(-8px) scale(1.012);
+  }
+  60% {
+    transform: translateY(9px) scale(0.985);
+  }
+  100% {
+    transform: translateY(18px) scale(0.96);
+  }
+}
+
+@keyframes seal-release {
+  0% {
+    opacity: 1;
+    transform: translate(-50%, -50%) rotate(-5deg) scale(1);
+  }
+  45% {
+    opacity: 1;
+    transform: translate(-50%, -50%) rotate(4deg) scale(1.08);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -42%) rotate(12deg) scale(0.72);
+  }
+}
+
+@keyframes flap-open {
+  0% {
+    z-index: 5;
+    transform: rotateX(0deg);
+  }
+  49% {
+    z-index: 5;
+    transform: rotateX(89deg);
+  }
+  50% {
+    z-index: 1;
+    transform: rotateX(90deg);
+  }
+  100% {
+    z-index: 1;
+    transform: rotateX(180deg);
+  }
+}
+
+@keyframes letter-rise {
+  0% {
+    opacity: 0;
+    transform: translateY(0) scale(1);
+  }
+  16% {
+    opacity: 1;
+  }
+  65% {
+    opacity: 1;
+    transform: translateY(-70%) scale(1.015);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(-62%) scale(1.025);
+  }
+}
