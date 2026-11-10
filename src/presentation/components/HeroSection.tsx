@@ -1,3 +1,4 @@
+import type { AnimationEventHandler, Ref } from "react";
 import type {
   Couple,
   EventDate,
@@ -11,6 +12,9 @@ interface HeroSectionProps {
   readonly date: EventDate;
   readonly content: HeroContent;
   readonly navigation: readonly NavigationItem[];
+  readonly cardRef: Ref<HTMLDivElement>;
+  readonly headingRef: Ref<HTMLHeadingElement>;
+  readonly onCardAnimationEnd: AnimationEventHandler<HTMLDivElement>;
 }
 
 export function HeroSection({
@@ -18,53 +22,47 @@ export function HeroSection({
   date,
   content,
   navigation,
+  cardRef,
+  headingRef,
+  onCardAnimationEnd,
 }: HeroSectionProps) {
-  const [leftNav, rightNav] = [
-    navigation.slice(0, 2),
-    navigation.slice(2),
-  ];
-
   return (
     <section className="hero" id="inizio">
-      <nav className="hero-nav" aria-label="Navigazione principale">
-        {leftNav.map((item) => (
-          <a key={item.href} href={item.href}>
-            {item.label}
-          </a>
-        ))}
-        <a className="nav-mark" href="#inizio" aria-label="Torna all’inizio">
-          {couple.initials[0]}
-          <Ampersand />
-          {couple.initials[1]}
-        </a>
-        {rightNav.map((item) => (
-          <a key={item.href} href={item.href}>
-            {item.label}
-          </a>
-        ))}
-      </nav>
+      <a className="nav-mark" href="#inizio" aria-label="Torna all’inizio">
+        {couple.initials[0]}
+        <Ampersand />
+        {couple.initials[1]}
+      </a>
 
-      <div className="botanical botanical-left" />
-      <div className="botanical botanical-right" />
-
-      <div className="hero-center">
+      <div
+        className="hero-center"
+        ref={cardRef}
+        onAnimationEnd={onCardAnimationEnd}
+      >
         <span className="eyebrow">{content.eyebrow}</span>
-        <h1>
+        <h1 ref={headingRef} tabIndex={-1}>
           <span>{couple.firstPartner}</span>
           <Ampersand />
           <span>{couple.secondPartner}</span>
         </h1>
-        <p className="hero-intro">{content.intro}</p>
         <div className="hero-date">
           <span>{date.weekday}</span>
           <strong>{date.day}</strong>
           <span>{date.monthAndYear}</span>
         </div>
+        <p className="hero-intro">{content.intro}</p>
         <a className="scroll-cue" href="#storia">
           <span>{content.scrollLabel}</span>
-          <i>↓</i>
+          <i aria-hidden="true">↓</i>
         </a>
       </div>
+      <nav className="hero-nav" aria-label="Navigazione principale">
+        {navigation.map((item) => (
+          <a key={item.href} href={item.href}>
+            {item.label}
+          </a>
+        ))}
+      </nav>
     </section>
   );
 }

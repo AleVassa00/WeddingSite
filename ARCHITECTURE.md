@@ -1,38 +1,57 @@
-# Architecture
+# Architettura
 
-The application follows an MVC-inspired, layered structure adapted to React.
+WeddingSite è un frontend React con TypeScript, Vite e CSS personalizzato.
+Vite produce in `dist/` la pagina HTML e gli asset per un hosting statico.
 
-## Layers
-
-- `src/domain`: framework-independent model, types, invariants, and pure
-  business functions.
-- `src/config`: the single source of truth for wedding content, dates, links,
-  theme tokens, SEO, and RSVP options.
-- `src/application`: controllers, use-case mapping, hooks, and repository ports.
-- `src/infrastructure`: adapters for browser or remote services. The current
-  RSVP adapter stores a draft on the visitor's device.
-- `src/presentation`: views, reusable components, and theme mapping.
-- `app`: framework composition root, metadata, and global style entry points.
-- `app/styles`: presentation styles split by page responsibility.
-
-## MVC mapping
-
-| MVC responsibility | Project location |
+| Responsabilità | Percorso |
 | --- | --- |
-| Model | `src/domain` and `src/config` |
-| Controller | `src/application/controllers` |
-| View | `src/presentation/views` and `src/presentation/components` |
+| Avvio del frontend | `index.html` e `src/main.tsx` |
+| Testi, date, link e metadati | `src/config/wedding.config.ts` |
+| Tipi, validazione della configurazione e calcolo del conto alla rovescia | `src/domain/wedding/` |
+| Aggiornamento del conto alla rovescia | `src/application/hooks/useCountdown.ts` |
+| Composizione della pagina e sezioni | `src/presentation/views/` e `src/presentation/components/` |
+| Token, tipografia e regole condivise | `src/styles/foundation.css` |
+| Stili della busta, del cartoncino e delle sezioni | `src/styles/` |
+| Texture e risorse statiche | `public/` |
 
-## Configuration
+`WeddingInvitationView` conserva lo stato di apertura e misura la posizione
+della busta rispetto al cartoncino. `InvitationGate` fornisce i livelli di
+carta e il sigillo. Durante i 3,15 secondi della sequenza in
+`src/styles/invitation.css`, il cartoncino della hero risale tra il retro
+e la tasca della busta, poi raggiunge la sua posizione nel layout.
+Con movimento ridotto si accede direttamente alla hero. Il conto alla
+rovescia si aggiorna nella propria sezione.
 
-Most wedding-specific changes belong in:
+Vite usa la configurazione del matrimonio per inserire titolo e metadati
+direttamente nell'HTML. I riferimenti agli asset nella build sono relativi
+alla pagina, così l'invito può essere servito anche da una sottocartella.
 
-`src/config/wedding.config.ts`
+## Identità visiva
 
-Changing the theme there updates CSS custom properties without coupling the
-domain model to presentation code.
+`foundation.css` definisce `--accent` per l'ocra, `--paper` per l'avorio,
+`--champagne` per i dettagli caldi e `--ink` per il testo. I token
+`--accent-ink` e `--ink-muted` forniscono varianti leggibili sulle superfici
+chiare. `--gutter`, `--section-space` e `--text-title` adattano le proporzioni
+alla larghezza dello schermo. `--duration-feedback` e `--ease-out` regolano
+il feedback dei comandi. `--invitation-duration` definisce la durata della
+sequenza della busta.
 
-## Replacing RSVP storage
+Cormorant Garamond è il carattere dei nomi, dei titoli e dei monogrammi.
+EB Garamond è destinato alla lettura, Manrope ai comandi e alle etichette.
+La busta e il cartoncino condividono la grana di carta cotone. Il sigillo
+usa una texture trasparente, con le iniziali sovrapposte dal componente React.
 
-Implement the `RsvpRepository` port and inject the new adapter in
-`WeddingInvitationApp`. The controller and views do not need to change.
+### Risorse dei materiali
+
+[Carta cotone](public/textures/cotton-paper.webp) e
+[ceralacca champagne](public/textures/champagne-wax-seal.webp) sono state
+generate con ImageGen a partire dai due riferimenti e ottimizzate in WebP.
+
+<details>
+<summary>Prompt ImageGen</summary>
+
+**Carta.** Use case: product-mockup. Material asset for a wedding invitation website. Both supplied images are references solely for the realistic densely felted cotton-paper grain. Create a square seamless edge-to-edge flat-lay macro photograph of a sheet of pale warm neutral ivory handmade cotton rag paper, with visible fine short irregular fibers and gently pressed, uneven tooth. The sheet fills the entire image. Subtle neutral even lighting so the asset can be colored and lit in CSS. Matte, tactile, delicate and premium, no stains, wrinkles, blotches, large flecks, gradients, vignette, lettering, edges, cuts, folds, borders, shadows, seal, or any other object. Low contrast uniform sample, suitable as a repeating background texture.
+
+**Sigillo.** Use case: product-mockup. Create a photorealistic isolated alpha cutout for a live wedding website. Both supplied screenshots are references for the hand-poured ivory wax seal material only. Photograph directly overhead one blank champagne-ivory circular hand-poured wax seal with a very subtly irregular thick outer lip and a smooth slightly recessed inner stamp face, like the ivory seal in the reference. The material is real warm creamy sealing wax with translucent edges and subtle pearlescent highlights, not metal. Soft directional light from the upper left, realistic self-shadow and warm reflected light. The single wax disk fills 88% of the square. Transparent background everywhere outside the disk, no cast shadow outside the object. Blank clean center for an HTML monogram overlay. No letters, no emblem, no gold, no extra objects, no border outside the wax.
+
+</details>

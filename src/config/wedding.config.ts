@@ -1,5 +1,6 @@
-import { defineWeddingConfig } from "@/src/domain/wedding/defineWeddingConfig";
+import { defineWeddingConfig } from "../domain/wedding/defineWeddingConfig";
 
+// Date, luogo, programma, storia e indicazioni per gli ospiti sono provvisori.
 export const weddingConfig = defineWeddingConfig({
   couple: {
     firstPartner: "Veronica",
@@ -12,17 +13,14 @@ export const weddingConfig = defineWeddingConfig({
     day: "4",
     monthAndYear: "Settembre 2027",
     compact: "04 · 09 · 2027",
-    long: "4 settembre 2027",
   },
   navigation: [
     { label: "Noi", href: "#storia" },
     { label: "Programma", href: "#programma" },
     { label: "Il luogo", href: "#luogo" },
-    { label: "R.S.V.P.", href: "#rsvp" },
   ],
   gate: {
     eyebrow: "Un invito speciale",
-    letterTitle: "Ci sposiamo!",
     openLabel: "Tocca per aprire",
     openAriaLabel: "Apri l’invito di Veronica e Maurizio",
   },
@@ -100,38 +98,11 @@ export const weddingConfig = defineWeddingConfig({
       title: ["In viaggio,", "senza pensieri"],
       description:
         "Una navetta partirà da Como alle 16:45 e vi riaccompagnerà al termine della festa.",
-      action: {
-        label: "Prenota il tuo posto",
-        href: "#rsvp",
-      },
     },
   ],
-  rsvp: {
-    eyebrow: "Répondez s’il vous plaît",
-    title: "Ci sarai?",
-    deadlineText: "Conferma la tua presenza entro il 15 luglio 2027.",
-    guestOptions: [1, 2, 3, 4],
-    shuttleLabel: "Vorrei prenotare la navetta da Como",
-    storageKey: "veronica-maurizio:rsvp",
-    successTitle: "Grazie, abbiamo ricevuto la tua risposta.",
-    successMessage: "Non vediamo l’ora di festeggiare insieme!",
-  },
   footer: {
     text: "4 settembre 2027 · Lago di Como",
     backToTopLabel: "Torna su",
-  },
-  theme: {
-    ivory: "#f3efe5",
-    paper: "#faf7f0",
-    ink: "#1f2b23",
-    sage: "#8a9883",
-    moss: "#3e5143",
-    gold: "#b49969",
-    blush: "#d8bdb5",
-    envelopePaper: "#788b77",
-    envelopeFront: "#667b69",
-    envelopeBack: "#536858",
-    wax: "#d8c6a4",
   },
   seo: {
     title: "Veronica & Maurizio — 4 settembre 2027",

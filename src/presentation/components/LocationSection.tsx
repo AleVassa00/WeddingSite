@@ -7,16 +7,9 @@ interface LocationSectionProps {
 export function LocationSection({ content }: LocationSectionProps) {
   return (
     <section className="location section-pad" id="luogo">
-      <div className="location-art" aria-hidden="true">
-        <span className="sun" />
-        <span className="mountain mountain-one" />
-        <span className="mountain mountain-two" />
-        <span className="lake-line" />
-        <div className="villa">
-          <i />
-          <i />
-          <i />
-        </div>
+      <div className="location-art">
+        <span className="eyebrow">Fotografia del luogo</span>
+        <span>Segnaposto provvisorio</span>
       </div>
       <div className="location-copy">
         <div className="section-number">03</div>

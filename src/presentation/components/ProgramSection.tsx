@@ -8,7 +8,7 @@ export function ProgramSection({ content }: ProgramSectionProps) {
   return (
     <section className="program section-pad" id="programma">
       <div className="program-intro">
-        <div className="section-number light">02</div>
+        <div className="section-number">02</div>
         <span className="eyebrow">{content.eyebrow}</span>
         <h2>
           {content.title[0]}

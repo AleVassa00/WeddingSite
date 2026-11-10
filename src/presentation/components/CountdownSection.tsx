@@ -1,16 +1,18 @@
-import type { Countdown } from "@/src/domain/wedding/types";
+import { useCountdown } from "@/src/application/hooks/useCountdown";
 
 interface CountdownSectionProps {
-  readonly countdown: Countdown;
+  readonly targetIso: string;
   readonly label: string;
   readonly footer: string;
 }
 
 export function CountdownSection({
-  countdown,
+  targetIso,
   label,
   footer,
 }: CountdownSectionProps) {
+  const countdown = useCountdown(targetIso);
+
   return (
     <section className="countdown-section" aria-label="Conto alla rovescia">
       <span className="eyebrow">{label}</span>

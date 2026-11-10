@@ -25,12 +25,6 @@ export function DetailsSection({ cards }: DetailsSectionProps) {
               ))}
             </div>
           ) : null}
-
-          {card.action ? (
-            <a className="text-link" href={card.action.href}>
-              {card.action.label} <span>↓</span>
-            </a>
-          ) : null}
         </article>
       ))}
     </section>

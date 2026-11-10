@@ -1,5 +1,3 @@
-export type Attendance = "yes" | "no";
-
 export interface Couple {
   readonly firstPartner: string;
   readonly secondPartner: string;
@@ -12,7 +10,6 @@ export interface EventDate {
   readonly day: string;
   readonly monthAndYear: string;
   readonly compact: string;
-  readonly long: string;
 }
 
 export interface NavigationItem {
@@ -22,7 +19,6 @@ export interface NavigationItem {
 
 export interface InvitationGateContent {
   readonly eyebrow: string;
-  readonly letterTitle: string;
   readonly openLabel: string;
   readonly openAriaLabel: string;
 }
@@ -65,41 +61,12 @@ export interface DetailCard {
   readonly eyebrow: string;
   readonly title: readonly [string, string];
   readonly description: string;
-  readonly action?: {
-    readonly label: string;
-    readonly href: string;
-  };
   readonly palette?: readonly string[];
-}
-
-export interface RsvpContent {
-  readonly eyebrow: string;
-  readonly title: string;
-  readonly deadlineText: string;
-  readonly guestOptions: readonly number[];
-  readonly shuttleLabel: string;
-  readonly storageKey: string;
-  readonly successTitle: string;
-  readonly successMessage: string;
 }
 
 export interface FooterContent {
   readonly text: string;
   readonly backToTopLabel: string;
-}
-
-export interface WeddingTheme {
-  readonly ivory: string;
-  readonly paper: string;
-  readonly ink: string;
-  readonly sage: string;
-  readonly moss: string;
-  readonly gold: string;
-  readonly blush: string;
-  readonly envelopePaper: string;
-  readonly envelopeFront: string;
-  readonly envelopeBack: string;
-  readonly wax: string;
 }
 
 export interface WeddingSeo {
@@ -122,9 +89,7 @@ export interface WeddingConfig {
   readonly program: ProgramContent;
   readonly venue: VenueContent;
   readonly details: readonly DetailCard[];
-  readonly rsvp: RsvpContent;
   readonly footer: FooterContent;
-  readonly theme: WeddingTheme;
   readonly seo: WeddingSeo;
 }
 
@@ -133,14 +98,4 @@ export interface Countdown {
   readonly ore: number;
   readonly minuti: number;
   readonly secondi: number;
-}
-
-export interface RsvpSubmission {
-  readonly name: string;
-  readonly attendance: Attendance;
-  readonly guests: number;
-  readonly dietaryRequirements: string;
-  readonly message: string;
-  readonly shuttleRequested: boolean;
-  readonly submittedAt: string;
 }

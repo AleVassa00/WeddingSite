@@ -1,96 +1,46 @@
 # WeddingSite — Veronica & Maurizio
 
-Invito digitale per il matrimonio di Veronica e Maurizio, previsto per il
-4 settembre 2027 alle ore 18:00.
+Partecipazione digitale. Data, luogo, programma, storia e indicazioni per gli
+ospiti sono contenuti provvisori.
 
-## Requisiti
+## Installazione e avvio
 
-- Node.js `>=22.13.0`
-- npm
-
-## Installazione
+Con Node.js `>=22.13.0` e npm:
 
 ```powershell
-npm install
-```
-
-## Avvio sul PC
-
-Per lavorare sul sito e visualizzarlo solamente dal computer:
-
-```powershell
+npm ci
 npm run dev
 ```
 
-Aprire quindi [http://localhost:3000](http://localhost:3000).
+Apri [http://localhost:5173/](http://localhost:5173/) o l'URL indicato da Vite.
 
 ## Visualizzazione dal telefono
 
-Il PC e il telefono possono essere collegati allo stesso router anche in modi
-diversi: per esempio, PC tramite cavo Ethernet e telefono tramite Wi-Fi.
-
-Avviare il server rendendolo disponibile sulla rete locale:
+Collega telefono e PC alla stessa rete locale e avvia Vite con:
 
 ```powershell
-npm run dev -- --hostname 0.0.0.0
-```
-
-Individuare l'indirizzo IPv4 del PC:
-
-```powershell
+npm run dev -- --host 0.0.0.0
 ipconfig
 ```
 
-Dal browser del telefono aprire:
+Apri `http://INDIRIZZO-IP-DEL-PC:5173/` dal telefono. Usa la porta mostrata da
+Vite se è diversa. Tieni aperto il terminale mentre visualizzi l'anteprima.
 
-```text
-http://INDIRIZZO-IP-DEL-PC:3000/
-```
-
-Con l'indirizzo attuale del PC, l'URL è:
-
-[http://192.168.178.78:3000/](http://192.168.178.78:3000/)
-
-Il terminale deve rimanere aperto e il PC non deve andare in sospensione. Per
-fermare il server premere `Ctrl+C`.
-
-Se il sito non è raggiungibile:
-
-- verificare che entrambi i dispositivi utilizzino lo stesso router;
-- evitare la rete Wi-Fi ospiti, che può isolare i dispositivi;
-- autorizzare Node.js nel Firewall di Windows solamente sulle reti private;
-- verificare nuovamente l'indirizzo IP, perché il router può modificarlo.
-
-Questa modalità rende il sito accessibile soltanto all'interno della rete
-locale: non lo pubblica su Internet.
-
-## Configurazione del matrimonio
-
-Nomi, data, testi, programma, luogo, colori e opzioni RSVP sono centralizzati
-in:
-
-```text
-src/config/wedding.config.ts
-```
-
-## Architettura
-
-Il progetto utilizza una struttura ispirata a MVC:
-
-- `src/domain`: modello e logica indipendente da React;
-- `src/config`: configurazione del matrimonio;
-- `src/application`: controller e casi d'uso;
-- `src/infrastructure`: salvataggio e servizi esterni;
-- `src/presentation`: view e componenti React;
-- `app/styles`: fogli di stile suddivisi per responsabilità.
-
-Per maggiori dettagli consultare [ARCHITECTURE.md](ARCHITECTURE.md).
-
-## Comandi utili
+## Verifica e build
 
 ```powershell
-npm run typecheck
-npm test
-npm run build
 npm run validate
+npm run preview
 ```
+
+`validate` esegue typecheck, lint, test del conto alla rovescia e build.
+`preview` serve localmente il risultato della build. Per la pubblicazione
+statica è sufficiente servire il contenuto di `dist/`.
+
+## Configurazione
+
+La configurazione centralizzata in `src/config/wedding.config.ts` contiene
+nomi, date, testi, navigazione, programma, luogo e metadati. Palette e
+tipografia sono definite in `src/styles/foundation.css`.
+
+La struttura del frontend è descritta in [ARCHITECTURE.md](ARCHITECTURE.md).

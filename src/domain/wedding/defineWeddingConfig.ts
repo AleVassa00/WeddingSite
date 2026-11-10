@@ -1,7 +1,5 @@
 import type { WeddingConfig } from "./types";
 
-const HEX_COLOR = /^#[0-9a-f]{3,8}$/i;
-
 export function defineWeddingConfig(config: WeddingConfig): WeddingConfig {
   const names = [config.couple.firstPartner, config.couple.secondPartner];
 
@@ -25,16 +23,6 @@ export function defineWeddingConfig(config: WeddingConfig): WeddingConfig {
   const scheduleTimes = new Set(config.program.items.map((item) => item.time));
   if (scheduleTimes.size !== config.program.items.length) {
     throw new Error("Program times must be unique.");
-  }
-
-  if (config.rsvp.guestOptions.some((guests) => guests < 1)) {
-    throw new Error("RSVP guest options must be positive.");
-  }
-
-  for (const [token, value] of Object.entries(config.theme)) {
-    if (!HEX_COLOR.test(value)) {
-      throw new Error(`Theme token "${token}" must be a hexadecimal color.`);
-    }
   }
 
   return config;
