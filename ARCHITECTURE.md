@@ -14,13 +14,13 @@ Vite produce in `dist/` la pagina HTML e gli asset per un hosting statico.
 | Stili della busta, del cartoncino e delle sezioni | `src/styles/` |
 | Texture e risorse statiche | `public/` |
 
-`WeddingInvitationView` conserva lo stato di apertura e misura la posizione
-della busta rispetto al cartoncino. `InvitationGate` fornisce i livelli di
-carta e il sigillo. Durante i 3,15 secondi della sequenza in
-`src/styles/invitation.css`, il cartoncino della hero risale tra il retro
-e la tasca della busta, poi raggiunge la sua posizione nel layout.
-Con movimento ridotto si accede direttamente alla hero. Il conto alla
-rovescia si aggiorna nella propria sezione.
+`useInvitationOpening` misura la busta e il cartoncino e coordina i cinque
+stati dell'apertura. Le animazioni CSS del cartoncino avanzano la sequenza
+tramite `Animation.finished`. Durante i 3,15 secondi della sequenza il
+cartoncino della hero risale tra il retro e la tasca della busta, si libera
+dalla tasca e raggiunge la sua posizione nel layout. Il comando di salto,
+il movimento ridotto e il recupero dopo un'interruzione portano direttamente
+alla hero. Il conto alla rovescia si aggiorna nella propria sezione.
 
 Vite usa la configurazione del matrimonio per inserire titolo e metadati
 direttamente nell'HTML. I riferimenti agli asset nella build sono relativi
@@ -33,8 +33,8 @@ alla pagina, così l'invito può essere servito anche da una sottocartella.
 `--accent-ink` e `--ink-muted` forniscono varianti leggibili sulle superfici
 chiare. `--gutter`, `--section-space` e `--text-title` adattano le proporzioni
 alla larghezza dello schermo. `--duration-feedback` e `--ease-out` regolano
-il feedback dei comandi. `--invitation-duration` definisce la durata della
-sequenza della busta.
+il feedback dei comandi. `--opening-duration`, `--letter-duration` e
+`--transition-duration` definiscono la durata delle tre fasi animate.
 
 Cormorant Garamond è il carattere dei nomi, dei titoli e dei monogrammi.
 EB Garamond è destinato alla lettura, Manrope ai comandi e alle etichette.

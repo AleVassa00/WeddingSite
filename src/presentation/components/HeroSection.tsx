@@ -1,4 +1,4 @@
-import type { AnimationEventHandler, Ref } from "react";
+import type { Ref } from "react";
 import type {
   Couple,
   EventDate,
@@ -14,7 +14,6 @@ interface HeroSectionProps {
   readonly navigation: readonly NavigationItem[];
   readonly cardRef: Ref<HTMLDivElement>;
   readonly headingRef: Ref<HTMLHeadingElement>;
-  readonly onCardAnimationEnd: AnimationEventHandler<HTMLDivElement>;
 }
 
 export function HeroSection({
@@ -24,7 +23,6 @@ export function HeroSection({
   navigation,
   cardRef,
   headingRef,
-  onCardAnimationEnd,
 }: HeroSectionProps) {
   return (
     <section className="hero" id="inizio">
@@ -34,11 +32,7 @@ export function HeroSection({
         {couple.initials[1]}
       </a>
 
-      <div
-        className="hero-center"
-        ref={cardRef}
-        onAnimationEnd={onCardAnimationEnd}
-      >
+      <div className="hero-center" ref={cardRef}>
         <span className="eyebrow">{content.eyebrow}</span>
         <h1 ref={headingRef} tabIndex={-1}>
           <span>{couple.firstPartner}</span>

@@ -1,10 +1,12 @@
 .site {
-  --invitation-duration: 3.15s;
+  --opening-duration: 1.82s;
+  --letter-duration: 0.14s;
+  --transition-duration: 1.19s;
   position: relative;
   isolation: isolate;
 }
 
-.site:not(.is-open) {
+.site:not([data-phase="OPENED"]) {
   height: 100svh;
   overflow: clip;
 }
@@ -171,12 +173,19 @@
 
 /* Put the shadow on the carrier so clipping the paper does not clip the shadow. */
 .envelope-flap {
-  z-index: 15;
-  filter:
+  --flap-open-pose: perspective(1400px) rotateX(166deg);
+  --flap-contact-shadow:
     drop-shadow(0 1px 0 var(--fold-light))
     drop-shadow(1px 2px 1px color-mix(in srgb, var(--shade) 53%, transparent))
     drop-shadow(4px 7px 5px color-mix(in srgb, var(--shade) 37%, transparent))
     drop-shadow(7px 14px 12px color-mix(in srgb, var(--shade) 22%, transparent));
+  --flap-lifted-shadow:
+    drop-shadow(0 1px 0 transparent)
+    drop-shadow(1px 2px 1px transparent)
+    drop-shadow(6px 13px 10px color-mix(in srgb, var(--shade) 13%, transparent))
+    drop-shadow(9px 20px 19px color-mix(in srgb, var(--shade) 13%, transparent));
+  z-index: 15;
+  filter: var(--flap-contact-shadow);
   transform-origin: top center;
 }
 
@@ -326,86 +335,158 @@
   }
 }
 
-/* The card and the envelope share a stack: back and lining, card, pocket, flap. */
-.site:not(.is-open):not(.is-opening) .hero-center {
+/* The same card is painted between the envelope lining and the pocket. */
+.site[data-phase="CLOSED"] .hero-center {
   visibility: hidden;
 }
 
-.is-opening .hero-center {
+.site:not([data-phase="CLOSED"], [data-phase="OPENED"]) .hero-center {
   z-index: 13;
   transform-origin: top left;
-  animation: invitation-card var(--invitation-duration) linear both;
+  --card-in-pocket: translate(var(--card-offset-x), var(--card-start-y)) scale(var(--card-scale));
+  --card-extracted: translate(var(--card-offset-x), var(--card-lift-y)) scale(var(--card-scale));
+  --card-full-edges: inset(-25px -25px -48px);
 }
 
-.is-opening .gate-copy {
+.site:not([data-phase="CLOSED"]) .gate-copy {
   opacity: 0;
   transform: translateY(-10px);
 }
 
-.is-opening .open-label {
+.site:not([data-phase="CLOSED"]) .open-label {
   opacity: 0;
   transform: translate(-50%, 6px);
 }
 
-.is-opening .gate-backdrop {
-  animation: gate-clear var(--invitation-duration) linear both;
+.skip-intro {
+  position: absolute;
+  inset-block-end: max(0.5rem, env(safe-area-inset-bottom));
+  inset-inline-end: max(0.5rem, env(safe-area-inset-right));
+  z-index: 19;
+  min-height: 44px;
+  border: 1px solid var(--rule-soft);
+  padding: 0.4rem 0.8rem;
+  color: var(--ink);
+  background: var(--paper);
+  font-size: 0.75rem;
+  font-weight: 700;
+  cursor: pointer;
+  pointer-events: auto;
 }
 
-.is-opening :is(.envelope-shadow, .envelope-back, .envelope-lining, .envelope-front) {
-  animation: envelope-withdraw var(--invitation-duration) linear both;
+[data-phase="OPENING"] .hero-center {
+  animation: card-extract var(--opening-duration) linear both;
 }
 
-.is-opening .envelope-flap {
+[data-phase="OPENING"] :is(.envelope-shadow, .envelope-back, .envelope-lining, .envelope-front) {
+  animation: envelope-extract var(--opening-duration) linear both;
+}
+
+[data-phase="OPENING"] .envelope-flap {
   animation:
-    flap-open 0.82s 0.17s cubic-bezier(0.32, 0.02, 0.2, 1) both,
-    envelope-withdraw var(--invitation-duration) linear both;
+    flap-open 0.83s 0.15s cubic-bezier(0.36, 0.08, 0.24, 1) both,
+    envelope-extract var(--opening-duration) linear both;
 }
 
-.is-opening .seal {
-  animation: seal-release 0.48s var(--ease-out) both;
+[data-phase="OPENING"] .seal {
+  animation: seal-release 0.46s var(--ease-out) both;
 }
 
-@keyframes invitation-card {
+[data-phase="LETTER_REVEALED"] .hero-center {
+  animation: card-revealed var(--letter-duration) linear both;
+}
+
+[data-phase="LETTER_REVEALED"] :is(.envelope-shadow, .envelope-back, .envelope-lining, .envelope-front, .envelope-flap) {
+  translate: 0 var(--envelope-extraction);
+}
+
+:is([data-phase="LETTER_REVEALED"], [data-phase="TRANSITIONING"]) .envelope-flap {
+  z-index: 12;
+  transform: var(--flap-open-pose);
+  filter: var(--flap-lifted-shadow);
+}
+
+:is([data-phase="LETTER_REVEALED"], [data-phase="TRANSITIONING"]) .seal {
+  visibility: hidden;
+}
+
+[data-phase="TRANSITIONING"] .hero-center {
+  animation: card-settle var(--transition-duration) cubic-bezier(0.28, 0.08, 0.24, 1) both;
+}
+
+[data-phase="TRANSITIONING"] :is(.envelope-shadow, .envelope-back, .envelope-lining, .envelope-front, .envelope-flap) {
+  animation: envelope-withdraw var(--transition-duration) cubic-bezier(0.42, 0, 0.7, 1) both;
+}
+
+[data-phase="TRANSITIONING"] .gate-backdrop {
+  animation: gate-clear var(--transition-duration) ease-in-out both;
+}
+
+@keyframes card-extract {
   0%,
-  18% {
-    transform: translate(var(--card-offset-x), var(--card-start-y)) scale(var(--card-scale));
+  33% {
+    transform: var(--card-in-pocket);
     clip-path: inset(-6px -12px var(--card-start-crop) -12px);
-    animation-timing-function: cubic-bezier(0.24, 0.6, 0.32, 1);
-  }
-
-  56% {
-    transform: translate(var(--card-offset-x), var(--card-lift-y)) scale(var(--card-scale));
-    clip-path: inset(-12px -16px 0);
-    animation-timing-function: cubic-bezier(0.32, 0, 0.2, 1);
+    animation-timing-function: cubic-bezier(0.28, 0.06, 0.24, 1);
   }
 
   100% {
+    transform: var(--card-extracted);
+    clip-path: var(--card-full-edges);
+  }
+}
+
+@keyframes card-revealed {
+  from,
+  to {
+    transform: var(--card-extracted);
+    clip-path: var(--card-full-edges);
+  }
+}
+
+@keyframes card-settle {
+  from {
+    transform: var(--card-extracted);
+    clip-path: var(--card-full-edges);
+  }
+
+  to {
     transform: translate(0, 0) scale(1);
     clip-path: inset(-80px);
   }
 }
 
-@keyframes gate-clear {
+@keyframes envelope-extract {
   0%,
-  54% {
-    opacity: 1;
+  61% {
+    translate: 0 0;
+    animation-timing-function: cubic-bezier(0.42, 0, 0.36, 1);
   }
 
-  91%,
   100% {
-    opacity: 0;
+    translate: 0 var(--envelope-extraction);
   }
 }
 
 @keyframes envelope-withdraw {
-  0%,
-  53% {
-    translate: 0 0;
-    animation-timing-function: cubic-bezier(0.44, 0, 0.72, 1);
+  from {
+    translate: 0 var(--envelope-extraction);
   }
 
-  100% {
+  to {
     translate: 0 106svh;
+  }
+}
+
+@keyframes gate-clear {
+  0%,
+  5% {
+    opacity: 1;
+  }
+
+  92%,
+  100% {
+    opacity: 0;
   }
 }
 
@@ -415,14 +496,14 @@
     transform: translate(-50%, -50%) rotate(-5deg) scale(1);
   }
 
-  42% {
+  44% {
     opacity: 1;
-    transform: translate(-49%, -52%) rotate(0) scale(1.045);
+    transform: translate(-49%, -53%) rotate(-1deg) scale(1.035);
   }
 
   100% {
     opacity: 0;
-    transform: translate(-46%, -38%) rotate(10deg) scale(0.9);
+    transform: translate(-45%, -36%) rotate(10deg) scale(0.9);
   }
 }
 
@@ -430,20 +511,23 @@
   0% {
     z-index: 15;
     transform: perspective(1400px) rotateX(0deg);
+    filter: var(--flap-contact-shadow);
   }
 
-  49% {
+  52% {
     z-index: 15;
     transform: perspective(1400px) rotateX(89deg);
+    filter: var(--flap-lifted-shadow);
   }
 
-  50% {
+  53% {
     z-index: 12;
-    transform: perspective(1400px) rotateX(90deg);
+    transform: perspective(1400px) rotateX(91deg);
   }
 
   100% {
     z-index: 12;
-    transform: perspective(1400px) rotateX(170deg);
+    transform: var(--flap-open-pose);
+    filter: var(--flap-lifted-shadow);
   }
 }

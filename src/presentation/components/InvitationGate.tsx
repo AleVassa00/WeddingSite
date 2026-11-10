@@ -14,6 +14,7 @@ interface InvitationGateProps {
   readonly envelopeRef: Ref<HTMLDivElement>;
   readonly isOpening: boolean;
   readonly onStart: () => void;
+  readonly onSkip: () => void;
 }
 
 export function InvitationGate({
@@ -23,6 +24,7 @@ export function InvitationGate({
   envelopeRef,
   isOpening,
   onStart,
+  onSkip,
 }: InvitationGateProps) {
   return (
     <section className="invitation-gate">
@@ -59,6 +61,11 @@ export function InvitationGate({
           </span>
         </button>
       </div>
+      {isOpening && (
+        <button className="skip-intro" type="button" onClick={onSkip}>
+          Salta animazione
+        </button>
+      )}
     </section>
   );
 }
