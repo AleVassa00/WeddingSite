@@ -15,8 +15,9 @@ Vite produce in `dist/` la pagina HTML e gli asset per un hosting statico.
 
 `useInvitationOpening` misura la busta e il cartoncino e coordina i cinque
 stati dell'apertura. Due marcatori leggono il tempo dell'animazione CSS
-in corso. `Animation.finished` porta alla hero. Durante i 3,65 secondi
-della sequenza il cartoncino risale tra il retro e la tasca della busta
+in corso. `Animation.finished` porta alla hero. Durante i 4,35 secondi
+della sequenza il sigillo scivola sulla tasca e segue la busta quando
+esce di scena. Il cartoncino risale tra il retro e la tasca della busta
 e comincia a ingrandirsi prima di raggiungere il punto più alto.
 Il comando di salto,
 il movimento ridotto e il recupero dopo un'interruzione portano direttamente

@@ -1,10 +1,10 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { CSSProperties } from "react";
 
-// These markers follow the lift keyframe and the beginning of the approach in invitation.css.
+// These markers follow the end of the lift and the start of the backdrop fade in invitation.css.
 const phaseMarkers = [
-  { phase: "LETTER_REVEALED", progress: 0.61 },
-  { phase: "TRANSITIONING", progress: 0.64 },
+  { phase: "LETTER_REVEALED", progress: 0.63 },
+  { phase: "TRANSITIONING", progress: 0.66 },
 ] as const;
 type ActivePhase = "OPENING" | typeof phaseMarkers[number]["phase"];
 

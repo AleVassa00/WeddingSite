@@ -1,0 +1,32 @@
+ ARCHITECTURE.md                                  |  36 [32m++[m[31m-[m
+ README.md                                        |  25 [32m+[m[31m-[m
+ immagini/Cuore.jpg                               | Bin [31m0[m -> [32m1372139[m bytes
+ immagini/Preghiera.jpg                           | Bin [31m0[m -> [32m1243056[m bytes
+ immagini/Tramonto.jpg                            | Bin [31m0[m -> [32m624177[m bytes
+ package.json                                     |   2 [32m+[m[31m-[m
+ public/textures/champagne-wax-seal-satin.webp    | Bin [31m0[m -> [32m20480[m bytes
+ public/textures/envelope-cotton.webp             | Bin [31m0[m -> [32m186254[m bytes
+ src/application/hooks/useCountdown.ts            |  13 [31m-[m
+ src/config/wedding.config.ts                     | 131 [32m+++[m[31m------[m
+ src/domain/wedding/countdown.test.ts             |  31 [31m---[m
+ src/domain/wedding/countdown.ts                  |  25 [31m--[m
+ src/domain/wedding/defineWeddingConfig.ts        |  63 [32m++++[m[31m-[m
+ src/domain/wedding/iban.test.ts                  |  17 [32m++[m
+ src/domain/wedding/iban.ts                       |  19 [32m++[m
+ src/domain/wedding/types.ts                      |  77 [32m++[m[31m----[m
+ src/presentation/components/CountdownSection.tsx |  30 [31m---[m
+ src/presentation/components/DetailsSection.tsx   |  32 [31m---[m
+ src/presentation/components/GiftsSection.tsx     |  57 [32m++++[m
+ src/presentation/components/HeroSection.tsx      |  43 [32m+[m[31m--[m
+ src/presentation/components/InvitationGate.tsx   |  15 [32m+[m[31m-[m
+ src/presentation/components/LocationSection.tsx  |  70 [32m++[m[31m---[m
+ src/presentation/components/ProgramSection.tsx   |  33 [31m---[m
+ src/presentation/components/StorySection.tsx     |  33 [31m---[m
+ src/presentation/components/WeddingFooter.tsx    |  16 [32m+[m[31m-[m
+ src/presentation/hooks/useInvitationOpening.ts   |  64 [32m+++[m[31m--[m
+ src/presentation/views/WeddingInvitationView.tsx |  23 [32m+[m[31m-[m
+ src/styles/foundation.css                        |  65 [32m+[m[31m----[m
+ src/styles/hero.css                              |  26 [32m+[m[31m-[m
+ src/styles/invitation.css                        | 322 [32m+++++++++++++[m[31m----------[m
+ src/styles/sections.css                          | 274 [32m+++++++++[m[31m----------[m
+ 31 files changed, 707 insertions(+), 835 deletions(-)

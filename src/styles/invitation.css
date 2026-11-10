@@ -1,5 +1,5 @@
 .site {
-  --opening-duration: 3.65s;
+  --opening-duration: 4.35s;
   position: relative;
   isolation: isolate;
 }
@@ -67,7 +67,8 @@
   --flap-point: 49%;
   --flap-shoulder: 55.102%;
   --flap-grain-size: max(100vw, 100svh);
-  --flap-turn: 0.96s 0.22s cubic-bezier(0.38, 0.05, 0.29, 1) both;
+  --flap-delay: 0.4s;
+  --flap-turn: 1.4s var(--flap-delay) cubic-bezier(0.36, 0, 0.6, 1) both;
   --pocket-edge: 29%;
   --pocket-point: 52%;
   --fold-foot: 73%;
@@ -462,11 +463,14 @@
 }
 
 .site[data-opening] .envelope-flap-shadow {
-  animation: flap-shadow-release 0.49s 0.22s ease-out both;
+  animation: flap-shadow-release 0.73s var(--flap-delay) ease-out both;
 }
 
 .site[data-opening] .seal {
-  animation: seal-release 0.4s cubic-bezier(0.32, 0.12, 0.36, 1) both;
+  /* Once released, the wax rides out with the pocket using the same translation. */
+  animation:
+    seal-release 0.54s linear both,
+    envelope-travel var(--opening-duration) linear both;
 }
 
 .site[data-opening] .gate-backdrop {
@@ -474,13 +478,14 @@
 }
 
 @keyframes card-travel {
+  /* Start lifting inside the pocket once the flap is out of the card's path. */
   0%,
-  26% {
+  34% {
     translate: var(--card-offset-x) var(--card-start-y);
-    animation-timing-function: cubic-bezier(0.32, 0.08, 0.28, 1);
+    animation-timing-function: cubic-bezier(0.32, 0, 0.28, 1);
   }
 
-  61% {
+  63% {
     translate: var(--card-offset-x) var(--card-lift-y);
     animation-timing-function: cubic-bezier(0.32, 0, 0.27, 1);
   }
@@ -493,9 +498,9 @@
 /* The scale starts before the card reaches the top of its path. */
 @keyframes card-approach {
   0%,
-  60% {
+  62% {
     scale: var(--card-scale);
-    animation-timing-function: cubic-bezier(0.28, 0.12, 0.24, 1);
+    animation-timing-function: cubic-bezier(0.28, 0, 0.24, 1);
   }
 
   100% {
@@ -505,12 +510,12 @@
 
 @keyframes envelope-travel {
   0%,
-  39% {
+  45.5% {
     translate: 0 0;
     animation-timing-function: cubic-bezier(0.46, 0.02, 0.32, 0.72);
   }
 
-  61% {
+  63% {
     translate: 0 var(--envelope-extraction);
     animation-timing-function: cubic-bezier(0.4, 0.22, 0.48, 1);
   }
@@ -522,7 +527,7 @@
 
 @keyframes gate-clear {
   0%,
-  64% {
+  66% {
     opacity: 1;
     animation-timing-function: ease-in-out;
   }
@@ -535,18 +540,17 @@
 
 @keyframes seal-release {
   0% {
-    opacity: 1;
     transform: translate(-50%, -50%) rotate(-5deg) scale(1);
+    animation-timing-function: cubic-bezier(0.35, 0, 0.4, 1);
   }
 
-  44% {
-    opacity: 1;
-    transform: translate(-49%, -53%) rotate(-1deg) scale(1.035);
+  33.333% {
+    transform: translate(-50%, -50%) rotate(-5deg) scale(0.99, 0.97);
+    animation-timing-function: cubic-bezier(0.25, 0, 0.32, 1);
   }
 
   100% {
-    opacity: 0;
-    transform: translate(-45%, -36%) rotate(10deg) scale(0.9);
+    transform: translate(calc(-50% + 14px), calc(-50% + 18px)) rotate(2deg) scale(1);
   }
 }
 
