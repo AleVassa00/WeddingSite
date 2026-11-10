@@ -27,6 +27,26 @@ Vite usa la configurazione del matrimonio per inserire titolo e metadati
 direttamente nell'HTML. I riferimenti agli asset nella build sono relativi
 alla pagina, così l'invito può essere servito anche da una sottocartella.
 
+## Effetti sonori
+
+Con `ENABLE_ENVELOPE_SFX` attivo, le clip locali si precaricano in silenzio.
+Web Audio si attiva nel gesto di apertura. I tre attacchi seguono il distacco
+del sigillo, l'inizio della rotazione della patta e l'inizio della salita del
+cartoncino, leggendo i keyframe e il ritardo delle animazioni CSS. Lo skip e
+le interruzioni scollegano l'uscita audio. Con il movimento ridotto si passa
+direttamente alla hero in silenzio.
+
+Le tre clip sono ritagli di registrazioni su Freesound, convertiti in WAV
+mono a 22,05 kHz con livelli attenuati e brevi dissolvenze ai bordi.
+
+| Clip | Registrazione originale e ritaglio |
+| --- | --- |
+| `seal-release.wav` | [Wax seal](https://freesound.org/people/Cerise_Virtuelle/sounds/759526/) di Cerise_Virtuelle, 0,981–1,159 s. Foley con un timbro premuto su pasta adesiva e carta. |
+| `envelope-flap.wav` | [Paper drawn with rustle](https://freesound.org/people/Mafon2/sounds/360646/) di Mafon2, 1,090–2,030 s. Carta di una busta in movimento. |
+| `card-extraction.wav` | [Handling a letter](https://freesound.org/people/MarcelWagner/sounds/632116/) di MarcelWagner, 9,340–10,510 s. Fruscio da una registrazione di una busta e una lettera. |
+
+Le sorgenti sono pubblicate con [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/), che permette modifica e redistribuzione senza obbligo di attribuzione.
+
 ## Identità visiva
 
 `foundation.css` definisce `--accent` per l'ocra, `--paper` per l'avorio,

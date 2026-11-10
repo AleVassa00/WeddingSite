@@ -1,5 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { CSSProperties } from "react";
+import { ENABLE_ENVELOPE_SFX } from "@/src/config/envelope-sfx.config";
+import { prepareEnvelopeSfx } from "../envelopeSfx";
 
 // These markers follow the end of the lift and the start of the backdrop fade in invitation.css.
 const phaseMarkers = [
@@ -65,10 +67,13 @@ export function useInvitationOpening() {
   const envelopeRef = useRef<HTMLDivElement>(null);
   const cardRef = useRef<HTMLDivElement>(null);
   const headingRef = useRef<HTMLHeadingElement>(null);
+  const sfx = useRef<ReturnType<typeof prepareEnvelopeSfx>>(undefined);
   const isOpen = state.phase === "OPENED";
   const motion = "motion" in state ? state.motion : undefined;
 
   const openImmediately = useCallback(() => {
+    sfx.current?.stop();
+    sfx.current = undefined;
     setState(current => current.phase === "OPENED" ? current : { phase: "OPENED" });
   }, []);
 
@@ -85,8 +90,27 @@ export function useInvitationOpening() {
     }
 
     const motion = measureCardMotion(envelope, card);
+    if (ENABLE_ENVELOPE_SFX) {
+      sfx.current ??= prepareEnvelopeSfx();
+      sfx.current?.unlock();
+    }
     setState(current => current.phase === "CLOSED" ? { phase: "OPENING", motion } : current);
   }
+
+  useEffect(() => {
+    if (!ENABLE_ENVELOPE_SFX) {
+      return;
+    }
+
+    if (!window.matchMedia(motionPreference).matches) {
+      sfx.current ??= prepareEnvelopeSfx();
+    }
+
+    return () => {
+      sfx.current?.stop();
+      sfx.current = undefined;
+    };
+  }, []);
 
   useEffect(() => {
     if (!isOpen) {
@@ -150,6 +174,14 @@ export function useInvitationOpening() {
     };
     void animation.ready.then(scheduleMarker, recover);
     void animation.finished.then(recover, recover);
+    const envelope = envelopeRef.current;
+    if (envelope && sfx.current) {
+      void animation.ready.then(() => {
+        if (active) {
+          sfx.current?.schedule(envelope, animation);
+        }
+      }).catch(() => undefined);
+    }
 
     // The promise drives the sequence. This deadline only releases a stalled animation.
     const remaining = duration - Number(animation.currentTime);

@@ -428,15 +428,31 @@
   inset-block-end: max(0.5rem, env(safe-area-inset-bottom));
   inset-inline-end: max(0.5rem, env(safe-area-inset-right));
   z-index: 19;
+  display: inline-flex;
+  align-items: center;
   min-height: 44px;
-  border: 1px solid var(--rule-soft);
-  padding: 0.4rem 0.8rem;
-  color: var(--ink);
-  background: var(--paper);
-  font-size: 0.75rem;
+  border: 0;
+  border-radius: 1rem;
+  padding: 0;
+  color: var(--envelope-ink);
+  background: transparent;
+  font-size: 0.8125rem;
   font-weight: 700;
   cursor: pointer;
   pointer-events: auto;
+}
+
+.skip-intro > span {
+  padding: 0.1875rem 0.625rem;
+  border-radius: 1rem;
+  background: color-mix(in srgb, var(--champagne) 60%, transparent);
+  text-decoration: underline;
+  text-underline-offset: 0.22em;
+}
+
+.skip-intro:focus-visible {
+  outline-offset: 0;
+  box-shadow: 0 0 0 4px var(--champagne);
 }
 
 .site[data-opening] .hero-center {

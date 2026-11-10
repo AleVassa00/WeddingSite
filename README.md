@@ -56,4 +56,9 @@ HTTPS o localhost. Se il browser la blocca, il codice rimane selezionabile.
 
 Palette e tipografia sono definite in `src/styles/foundation.css`.
 
+Gli effetti sonori della busta sono attivi per impostazione iniziale. Imposta
+`ENABLE_ENVELOPE_SFX` a `false` in `src/config/envelope-sfx.config.ts` per
+disattivare anche il caricamento delle clip. Le registrazioni e i dettagli
+della licenza sono descritti in [ARCHITECTURE.md](ARCHITECTURE.md#effetti-sonori).
+
 La struttura del frontend è descritta in [ARCHITECTURE.md](ARCHITECTURE.md).

@@ -66,7 +66,7 @@ export function InvitationGate({
       </div>
       {isOpening && (
         <button className="skip-intro" type="button" onClick={onSkip}>
-          Salta animazione
+          <span>Salta introduzione</span>
         </button>
       )}
     </section>
