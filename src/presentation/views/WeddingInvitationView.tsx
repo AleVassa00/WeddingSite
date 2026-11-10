@@ -1,12 +1,9 @@
 import type { WeddingConfig } from "@/src/domain/wedding/types";
 import { useInvitationOpening } from "../hooks/useInvitationOpening";
-import { CountdownSection } from "../components/CountdownSection";
-import { DetailsSection } from "../components/DetailsSection";
+import { GiftsSection } from "../components/GiftsSection";
 import { HeroSection } from "../components/HeroSection";
 import { InvitationGate } from "../components/InvitationGate";
 import { LocationSection } from "../components/LocationSection";
-import { ProgramSection } from "../components/ProgramSection";
-import { StorySection } from "../components/StorySection";
 import { WeddingFooter } from "../components/WeddingFooter";
 
 interface WeddingInvitationViewProps {
@@ -28,11 +25,11 @@ export function WeddingInvitationView({
   } = useInvitationOpening();
 
   return (
-    <main className="site" data-phase={phase} style={motion}>
+    <main className="site" data-phase={phase} data-opening={motion ? "" : undefined} style={motion}>
       {!isOpen && (
         <InvitationGate
           couple={config.couple}
-          date={config.date}
+          dateLabel={config.date?.compact ?? config.datePlaceholder}
           content={config.gate}
           envelopeRef={envelopeRef}
           isOpening={phase !== "CLOSED"}
@@ -44,21 +41,15 @@ export function WeddingInvitationView({
         <HeroSection
           couple={config.couple}
           date={config.date}
+          datePlaceholder={config.datePlaceholder}
           content={config.hero}
           navigation={config.navigation}
           cardRef={cardRef}
           headingRef={headingRef}
         />
-        <StorySection couple={config.couple} content={config.story} />
-        <CountdownSection
-          targetIso={config.date.iso}
-          label={config.countdownLabel}
-          footer={config.countdownFooter}
-        />
-        <ProgramSection content={config.program} />
-        <LocationSection content={config.venue} />
-        <DetailsSection cards={config.details} />
-        <WeddingFooter couple={config.couple} content={config.footer} />
+        <LocationSection locations={config.locations} />
+        <GiftsSection content={config.gifts} />
+        <WeddingFooter couple={config.couple} message={config.farewell} />
       </div>
     </main>
   );

@@ -1,40 +1,46 @@
-import type { VenueContent } from "@/src/domain/wedding/types";
+import type { WeddingLocation } from "@/src/domain/wedding/types";
 
 interface LocationSectionProps {
-  readonly content: VenueContent;
+  readonly locations: readonly WeddingLocation[];
 }
 
-export function LocationSection({ content }: LocationSectionProps) {
+const eventLabels = {
+  ceremony: "Cerimonia",
+  reception: "Ricevimento",
+} as const;
+
+export function LocationSection({ locations }: LocationSectionProps) {
   return (
-    <section className="location section-pad" id="luogo">
-      <div className="location-art">
-        <span className="eyebrow">Fotografia del luogo</span>
-        <span>Segnaposto provvisorio</span>
-      </div>
-      <div className="location-copy">
-        <div className="section-number">03</div>
-        <span className="eyebrow">{content.eyebrow}</span>
-        <h2>
-          {content.name[0]}
-          <br />
-          {content.name[1]}
-        </h2>
-        <p>
-          {content.address.map((line) => (
-            <span key={line}>
-              {line}
-              <br />
-            </span>
-          ))}
-        </p>
-        <a
-          className="text-link"
-          href={content.mapUrl}
-          target="_blank"
-          rel="noreferrer"
-        >
-          {content.mapLabel} <span>↗</span>
-        </a>
+    <section className="invitation-section celebration" id="luogo" aria-labelledby="celebration-title">
+      <header className="invitation-section-heading">
+        <span className="eyebrow">Il giorno</span>
+        <h2 id="celebration-title">Cerimonia e ricevimento</h2>
+      </header>
+
+      <div className="venue-list">
+        {locations.map(({ venue, events }) => (
+          <article className="venue-entry" key={events[0].kind}>
+            <h3>{venue?.name ?? "Luogo da confermare"}</h3>
+            {venue?.address && <address>{venue.address}</address>}
+
+            <dl className="venue-times">
+              {events.map(event => (
+                <div key={event.kind}>
+                  <dt>{eventLabels[event.kind]}</dt>
+                  <dd>
+                    {event.time ? <time dateTime={event.time}>{event.time}</time> : "Orario da confermare"}
+                  </dd>
+                </div>
+              ))}
+            </dl>
+
+            {venue?.mapUrl && (
+              <a className="text-link" href={venue.mapUrl} target="_blank" rel="noopener noreferrer">
+                Apri in Google Maps <span aria-hidden="true">↗</span>
+              </a>
+            )}
+          </article>
+        ))}
       </div>
     </section>
   );

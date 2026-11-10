@@ -14,7 +14,7 @@ export interface EventDate {
 
 export interface NavigationItem {
   readonly label: string;
-  readonly href: `#${string}`;
+  readonly href: "#luogo" | "#regali" | "#saluti";
 }
 
 export interface InvitationGateContent {
@@ -25,48 +25,29 @@ export interface InvitationGateContent {
 
 export interface HeroContent {
   readonly eyebrow: string;
-  readonly intro: string;
+  readonly phrase: string | null;
+  readonly phrasePlaceholder: string;
   readonly scrollLabel: string;
+  readonly photo: { readonly src: string; readonly alt: string } | null;
 }
 
-export interface StoryContent {
-  readonly eyebrow: string;
-  readonly title: readonly [string, string];
-  readonly paragraphs: readonly string[];
+export interface WeddingLocation {
+  readonly venue: {
+    readonly name: string;
+    readonly address: string;
+    readonly mapUrl: string | null;
+  } | null;
+  readonly events: readonly {
+    readonly kind: "ceremony" | "reception";
+    readonly time: string | null;
+  }[];
 }
 
-export interface ScheduleItem {
-  readonly time: string;
-  readonly title: string;
-  readonly description: string;
-}
-
-export interface ProgramContent {
-  readonly eyebrow: string;
-  readonly title: readonly [string, string];
-  readonly description: string;
-  readonly items: readonly ScheduleItem[];
-}
-
-export interface VenueContent {
-  readonly eyebrow: string;
-  readonly name: readonly [string, string];
-  readonly address: readonly string[];
-  readonly mapLabel: string;
-  readonly mapUrl: string;
-}
-
-export interface DetailCard {
-  readonly icon: string;
-  readonly eyebrow: string;
-  readonly title: readonly [string, string];
-  readonly description: string;
-  readonly palette?: readonly string[];
-}
-
-export interface FooterContent {
-  readonly text: string;
-  readonly backToTopLabel: string;
+export interface GiftsContent {
+  readonly intro: string;
+  readonly beneficiary: string | null;
+  readonly iban: string | null;
+  readonly ibanPlaceholder: string;
 }
 
 export interface WeddingSeo {
@@ -79,23 +60,13 @@ export interface WeddingSeo {
 
 export interface WeddingConfig {
   readonly couple: Couple;
-  readonly date: EventDate;
+  readonly date: EventDate | null;
+  readonly datePlaceholder: string;
   readonly navigation: readonly NavigationItem[];
   readonly gate: InvitationGateContent;
   readonly hero: HeroContent;
-  readonly story: StoryContent;
-  readonly countdownLabel: string;
-  readonly countdownFooter: string;
-  readonly program: ProgramContent;
-  readonly venue: VenueContent;
-  readonly details: readonly DetailCard[];
-  readonly footer: FooterContent;
+  readonly locations: readonly WeddingLocation[];
+  readonly gifts: GiftsContent;
+  readonly farewell: string;
   readonly seo: WeddingSeo;
-}
-
-export interface Countdown {
-  readonly giorni: number;
-  readonly ore: number;
-  readonly minuti: number;
-  readonly secondi: number;
 }

@@ -1,20 +1,16 @@
-import type {
-  Couple,
-  FooterContent,
-} from "@/src/domain/wedding/types";
+import type { Couple } from "@/src/domain/wedding/types";
 import { Monogram } from "./Monogram";
 
 interface WeddingFooterProps {
   readonly couple: Couple;
-  readonly content: FooterContent;
+  readonly message: string;
 }
 
-export function WeddingFooter({ couple, content }: WeddingFooterProps) {
+export function WeddingFooter({ couple, message }: WeddingFooterProps) {
   return (
-    <footer>
-      <Monogram couple={couple} className="footer-mark" />
-      <p>{content.text}</p>
-      <a href="#inizio">{content.backToTopLabel} ↑</a>
+    <footer className="wedding-footer" id="saluti">
+      <p>{message}</p>
+      <Monogram couple={couple} />
     </footer>
   );
 }

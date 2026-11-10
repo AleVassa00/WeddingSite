@@ -51,8 +51,14 @@
   font: italic 600 clamp(1.5rem, 5vw, 2.25rem)/1 var(--font-display);
 }
 
-.hero-center {
+.hero-card-frame {
   grid-area: card;
+  position: relative;
+  display: grid;
+  min-width: 0;
+}
+
+.hero-center {
   position: relative;
   display: grid;
   align-content: center;
@@ -122,6 +128,24 @@
   max-width: 32ch;
   color: var(--ink-muted);
   font: italic 500 var(--text-reading)/1.35 var(--font-reading);
+}
+
+.hero-date-pending {
+  width: min(100%, 15rem);
+  padding-block: 0.7rem;
+  border-block: 1px solid var(--rule);
+  color: var(--accent-ink);
+  font-size: var(--text-label);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.hero-photo {
+  width: min(100%, 20rem);
+  aspect-ratio: 3 / 2;
+  max-height: clamp(5rem, 18svh, 10rem);
+  object-fit: cover;
 }
 
 .hero-date {

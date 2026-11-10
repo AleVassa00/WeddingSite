@@ -1,7 +1,7 @@
 # WeddingSite — Veronica & Maurizio
 
-Partecipazione digitale. Data, luogo, programma, storia e indicazioni per gli
-ospiti sono contenuti provvisori.
+Partecipazione digitale con apertura della busta, informazioni sul matrimonio,
+regali e saluti.
 
 ## Installazione e avvio
 
@@ -33,14 +33,27 @@ npm run validate
 npm run preview
 ```
 
-`validate` esegue typecheck, lint, test del conto alla rovescia e build.
+`validate` esegue typecheck, lint, test della validazione IBAN e build.
 `preview` serve localmente il risultato della build. Per la pubblicazione
 statica è sufficiente servire il contenuto di `dist/`.
 
 ## Configurazione
 
-La configurazione centralizzata in `src/config/wedding.config.ts` contiene
-nomi, date, testi, navigazione, programma, luogo e metadati. Palette e
-tipografia sono definite in `src/styles/foundation.css`.
+I contenuti si aggiornano in `src/config/wedding.config.ts`. Un elemento di
+`locations` con entrambi gli eventi mostra un solo indirizzo e un solo link
+Maps. Due elementi con un evento ciascuno mostrano due luoghi distinti.
+
+Da ricevere o confermare dalla cliente
+
+- Data definitiva in formato `AAAA-MM-GG` e orari di cerimonia e ricevimento in formato `HH:mm`.
+- Nome, indirizzo e link Google Maps per ciascun luogo. Indicare se gli eventi condividono lo stesso indirizzo.
+- Frase personalizzata e, se desiderata, una foto approvata con testo alternativo. Per un file in `public/foto/` usare un percorso relativo come `./foto/nome-file.webp`.
+- Intestatario e IBAN confermati. Con `gifts.iban: null` compare il segnaposto e il comando di copia è disabilitato. La configurazione controlla la sintassi e il codice di controllo prima della build.
+- Testo introduttivo per i regali e messaggio finale. I testi presenti sono bozze da approvare.
+
+La copia automatica usa gli appunti del browser in un contesto sicuro, come
+HTTPS o localhost. Se il browser la blocca, il codice rimane selezionabile.
+
+Palette e tipografia sono definite in `src/styles/foundation.css`.
 
 La struttura del frontend è descritta in [ARCHITECTURE.md](ARCHITECTURE.md).

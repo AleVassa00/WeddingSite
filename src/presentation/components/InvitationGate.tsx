@@ -1,7 +1,6 @@
 import type { Ref } from "react";
 import type {
   Couple,
-  EventDate,
   InvitationGateContent,
 } from "@/src/domain/wedding/types";
 import { Ampersand } from "./Ampersand";
@@ -9,7 +8,7 @@ import { Monogram } from "./Monogram";
 
 interface InvitationGateProps {
   readonly couple: Couple;
-  readonly date: EventDate;
+  readonly dateLabel: string;
   readonly content: InvitationGateContent;
   readonly envelopeRef: Ref<HTMLDivElement>;
   readonly isOpening: boolean;
@@ -19,7 +18,7 @@ interface InvitationGateProps {
 
 export function InvitationGate({
   couple,
-  date,
+  dateLabel,
   content,
   envelopeRef,
   isOpening,
@@ -32,15 +31,19 @@ export function InvitationGate({
       <div className="gate-copy">
         <span className="eyebrow">{content.eyebrow}</span>
         <Monogram couple={couple} />
-        <p>{date.compact}</p>
+        <p>{dateLabel}</p>
       </div>
 
       <div className="envelope" ref={envelopeRef}>
         <span className="envelope-shadow" aria-hidden="true" />
         <span className="envelope-back" aria-hidden="true" />
         <span className="envelope-lining" aria-hidden="true" />
-        <span className="envelope-front" aria-hidden="true" />
-        <span className="envelope-flap" aria-hidden="true" />
+        <span className="envelope-front" aria-hidden="true">
+          <span className="envelope-pocket-paper" />
+        </span>
+        <span className="envelope-flap-shadow" aria-hidden="true" />
+        <span className="envelope-flap envelope-flap--front" aria-hidden="true" />
+        <span className="envelope-flap envelope-flap--back" aria-hidden="true" />
         <span className="seal" aria-hidden="true">
           <span className="seal-monogram">
             <span>{couple.initials[0]}</span>

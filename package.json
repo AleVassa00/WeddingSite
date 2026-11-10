@@ -9,7 +9,7 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "test": "node --experimental-strip-types --test src/domain/wedding/countdown.test.ts",
+    "test": "node --experimental-strip-types --test src/domain/wedding/iban.test.ts",
     "validate": "npm run typecheck && npm run lint && npm test && npm run build",
     "typecheck": "tsc --noEmit",
     "lint": "eslint ."

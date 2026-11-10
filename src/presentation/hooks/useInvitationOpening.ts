@@ -1,20 +1,19 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { CSSProperties } from "react";
 
-const stages = {
-  OPENING: { animation: "card-extract", next: "LETTER_REVEALED" },
-  LETTER_REVEALED: { animation: "card-revealed", next: "TRANSITIONING" },
-  TRANSITIONING: { animation: "card-settle", next: "OPENED" },
-} as const;
-
-type ActivePhase = keyof typeof stages;
+// These markers follow the lift keyframe and the beginning of the approach in invitation.css.
+const phaseMarkers = [
+  { phase: "LETTER_REVEALED", progress: 0.61 },
+  { phase: "TRANSITIONING", progress: 0.64 },
+] as const;
+type ActivePhase = "OPENING" | typeof phaseMarkers[number]["phase"];
 
 type CardMotion = CSSProperties & {
   "--card-offset-x": string;
   "--card-start-y": string;
   "--card-lift-y": string;
   "--card-scale": number;
-  "--card-start-crop": string;
+  "--card-pocket-mask": string;
   "--envelope-extraction": string;
 };
 
@@ -35,13 +34,13 @@ function measureCardMotion(envelopeElement: HTMLElement, cardElement: HTMLElemen
   );
   const width = card.width * scale;
   const height = card.height * scale;
-  const left = envelope.left + (envelope.width - width) / 2;
+  const offsetX = envelope.left + envelope.width / 2 - (card.left + card.width / 2);
   const startTop = envelope.top + envelope.height * 0.7;
   const liftTop = Math.max(
     card.top * 0.65,
     envelope.top + envelope.height * 0.25 - height * 0.55,
   );
-  const hiddenHeight = Math.max(0, startTop + height - envelope.bottom + 2);
+  const frameBottom = cardElement.parentElement?.getBoundingClientRect().bottom ?? card.bottom;
 
   // The card clears the V-shaped pocket at its corners before scaling up.
   const style = getComputedStyle(envelopeElement);
@@ -52,11 +51,11 @@ function measureCardMotion(envelopeElement: HTMLElement, cardElement: HTMLElemen
   const pocketTravel = Math.max(0, liftTop + height + 8 - pocketTop);
 
   return {
-    "--card-offset-x": `${left - card.left}px`,
+    "--card-offset-x": `${offsetX}px`,
     "--card-start-y": `${startTop - card.top}px`,
     "--card-lift-y": `${liftTop - card.top}px`,
     "--card-scale": scale,
-    "--card-start-crop": `${(hiddenHeight / height) * 100}%`,
+    "--card-pocket-mask": `${frameBottom - envelope.bottom + 2}px`,
     "--envelope-extraction": `${pocketTravel}px`,
   };
 }
@@ -67,6 +66,7 @@ export function useInvitationOpening() {
   const cardRef = useRef<HTMLDivElement>(null);
   const headingRef = useRef<HTMLHeadingElement>(null);
   const isOpen = state.phase === "OPENED";
+  const motion = "motion" in state ? state.motion : undefined;
 
   const openImmediately = useCallback(() => {
     setState(current => current.phase === "OPENED" ? current : { phase: "OPENED" });
@@ -103,17 +103,14 @@ export function useInvitationOpening() {
   }, [isOpen]);
 
   useEffect(() => {
-    if (!("motion" in state)) {
+    if (!motion) {
       return;
     }
 
-    const { animation: animationName, next } = stages[state.phase];
-    const nextState: OpeningState =
-      next === "OPENED" ? { phase: next } : { phase: next, motion: state.motion };
     const animation = cardRef.current?.getAnimations?.().find(
-      item => "animationName" in item && item.animationName === animationName,
+      item => "animationName" in item && item.animationName === "card-travel",
     );
-    const endTime = animation?.effect?.getComputedTiming().endTime;
+    const duration = Number(animation?.effect?.getComputedTiming().endTime);
     let active = true;
 
     function recover() {
@@ -129,19 +126,33 @@ export function useInvitationOpening() {
     }
 
     const preference = window.matchMedia(motionPreference);
-    if (!animation || !Number.isFinite(endTime) || document.hidden || preference.matches) {
+    if (!animation || !Number.isFinite(duration) || document.hidden || preference.matches) {
       void Promise.resolve().then(recover);
       return () => { active = false; };
     }
 
-    void animation.finished.then(() => {
-      if (active) {
-        setState(current => current.phase === state.phase ? nextState : current);
+    // The state markers observe the running CSS timeline without replacing its animation.
+    let markerIndex = 0;
+    let markerTimer: number | undefined;
+    const scheduleMarker = () => {
+      const marker = phaseMarkers[markerIndex];
+      if (!active || !marker) {
+        return;
       }
-    }, recover);
+      const remaining = duration * marker.progress - Number(animation.currentTime);
+      if (remaining > 0) {
+        markerTimer = window.setTimeout(scheduleMarker, Math.max(1, remaining));
+        return;
+      }
+      setState(current => "motion" in current ? { phase: marker.phase, motion } : current);
+      markerIndex++;
+      scheduleMarker();
+    };
+    void animation.ready.then(scheduleMarker, recover);
+    void animation.finished.then(recover, recover);
 
     // The promise drives the sequence. This deadline only releases a stalled animation.
-    const remaining = Number(endTime) - Number(animation.currentTime);
+    const remaining = duration - Number(animation.currentTime);
     const deadline = window.setTimeout(recover, Math.max(0, remaining) + completionGraceMs);
     window.addEventListener("resize", recover);
     window.addEventListener("pagehide", recover);
@@ -150,17 +161,18 @@ export function useInvitationOpening() {
 
     return () => {
       active = false;
+      window.clearTimeout(markerTimer);
       window.clearTimeout(deadline);
       window.removeEventListener("resize", recover);
       window.removeEventListener("pagehide", recover);
       document.removeEventListener("visibilitychange", onVisibilityChange);
       preference.removeEventListener("change", recover);
     };
-  }, [state, openImmediately]);
+  }, [motion, openImmediately]);
 
   return {
     phase: state.phase,
-    motion: "motion" in state ? state.motion : undefined,
+    motion,
     isOpen,
     envelopeRef,
     cardRef,
