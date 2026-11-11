@@ -60,7 +60,9 @@ export function WeddingInvitationView({
         />
       )}
       <div inert={!isOpen}>
-        {ENABLE_HERO_PHOTO_BACKGROUND ? <CastleHeroPhoto>{hero}</CastleHeroPhoto> : hero}
+        {ENABLE_HERO_PHOTO_BACKGROUND ? (
+          <CastleHeroPhoto cardRef={cardRef} isOpen={isOpen}>{hero}</CastleHeroPhoto>
+        ) : hero}
         {isOpen && config.portrait && (
           <WeddingPortrait couple={config.couple} date={config.date} photo={config.portrait} />
         )}
