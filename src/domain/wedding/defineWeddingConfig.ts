@@ -53,6 +53,10 @@ export function defineWeddingConfig(config: WeddingConfig): WeddingConfig {
     throw new Error("Gli orari devono usare il formato HH:mm.");
   }
 
+  if (config.ceremonyStartsAt !== undefined && !Number.isFinite(Date.parse(config.ceremonyStartsAt))) {
+    throw new Error("La scadenza del countdown deve essere una data valida.");
+  }
+
   for (const { venue } of config.locations) {
     const url = venue?.mapUrl;
     if (url && (!URL.canParse(url) || new URL(url).protocol !== "https:")) {

@@ -7,13 +7,34 @@ const couple = {
 } as const;
 
 const names = `${couple.firstPartner} & ${couple.secondPartner}`;
+const weddingDay = "2027-09-04";
+const ceremonyTime = "15:30";
+const receptionTime = "18:00";
+const datePlaceholder = "Data da confermare";
+const date = formatWeddingDate(weddingDay);
+const dateLabel = date ? `${date.weekday} ${Number(date.day)} ${date.monthAndYear}` : datePlaceholder;
+
+const ceremonyVenue = mapsVenue(
+  "Basilica di Santa Croce in Gerusalemme",
+  "Piazza di Santa Croce in Gerusalemme 12, Roma",
+);
+const receptionVenue = mapsVenue(
+  "Castello Rocca dei Cavalieri",
+  "Vocabolo Metelli snc, 02030 Collelungo (RI)",
+);
+
+function mapsVenue(name: string, address: string) {
+  const query = new URLSearchParams({ api: "1", query: `${name}, ${address}` });
+  return { name, address, mapUrl: `https://www.google.com/maps/search/?${query}` };
+}
 
 export const weddingConfig = defineWeddingConfig({
   couple,
-  date: formatWeddingDate(null),
-  datePlaceholder: "Data da confermare",
+  date,
+  datePlaceholder,
+  ceremonyStartsAt: `${weddingDay}T${ceremonyTime}:00+02:00`, // Ora legale di Roma il giorno del matrimonio.
   navigation: [
-    { label: "Il luogo", href: "#luogo" },
+    { label: "I luoghi", href: "#luogo" },
     { label: "Regali", href: "#regali" },
     { label: "Saluti", href: "#saluti" },
   ],
@@ -29,13 +50,20 @@ export const weddingConfig = defineWeddingConfig({
     scrollLabel: "Scopri l’invito",
     photo: null,
   },
+  portrait: {
+    src: "./photos/tramonto-ritratto.webp",
+    alt: `${couple.firstPartner} e ${couple.secondPartner} si baciano in riva al mare al tramonto.`,
+    width: 1200,
+    height: 1584,
+  },
   locations: [
     {
-      venue: null,
-      events: [
-        { kind: "ceremony", time: null },
-        { kind: "reception", time: null },
-      ],
+      venue: ceremonyVenue,
+      events: [{ kind: "ceremony", time: ceremonyTime }],
+    },
+    {
+      venue: receptionVenue,
+      events: [{ kind: "reception", time: receptionTime }],
     },
   ],
   gifts: {
@@ -44,11 +72,11 @@ export const weddingConfig = defineWeddingConfig({
     iban: null,
     ibanPlaceholder: "IBAN da comunicare",
   },
-  farewell: "Grazie di cuore per essere parte di questo giorno.",
+  farewell: "Il saluto degli sposi sarà aggiunto qui.",
   seo: {
-    title: `${names} — Partecipazione di nozze`,
-    description: `La partecipazione di nozze di ${couple.firstPartner} e ${couple.secondPartner}.`,
-    socialTitle: `${names} — Ci sposiamo!`,
-    socialDescription: "Un invito a festeggiare insieme.",
+    title: `${names} — ${dateLabel}`,
+    description: `${couple.firstPartner} e ${couple.secondPartner} si sposano ${dateLabel}. Cerimonia alle ${ceremonyTime} alla ${ceremonyVenue.name} a Roma. Ricevimento alle ${receptionTime} al ${receptionVenue.name} a Collelungo (RI).`,
+    socialTitle: `${names} — ${dateLabel}`,
+    socialDescription: `Un invito a festeggiare insieme ${dateLabel}. Cerimonia alle ${ceremonyTime} a Roma e ricevimento alle ${receptionTime} a Collelungo (RI).`,
   },
 });

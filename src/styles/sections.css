@@ -32,6 +32,37 @@
   text-wrap: pretty;
 }
 
+.wedding-countdown {
+  margin-top: 1.4rem;
+}
+
+.wedding-countdown > .eyebrow {
+  color: var(--accent-ink);
+}
+
+.wedding-countdown dl {
+  display: flex;
+  justify-content: center;
+  gap: clamp(0.75rem, 4vw, 1.75rem);
+  margin: 0.5rem 0 0;
+}
+
+.wedding-countdown dl > div {
+  display: flex;
+  flex-direction: column-reverse;
+}
+
+.wedding-countdown dt {
+  color: var(--ink-muted);
+  font-size: var(--text-label);
+}
+
+.wedding-countdown dd {
+  margin: 0;
+  font: 600 1.75rem/1.1 var(--font-display);
+  font-variant-numeric: tabular-nums;
+}
+
 .venue-list {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr));
@@ -147,12 +178,6 @@
   padding: 0 0.4rem;
   background: transparent;
   cursor: pointer;
-}
-
-.copy-iban:disabled {
-  border-color: transparent;
-  color: var(--ink-muted);
-  cursor: default;
 }
 
 .gift-feedback {

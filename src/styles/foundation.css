@@ -5,7 +5,9 @@
   --champagne: #d8c5a1;
   --ink: #352d25;
   --ink-muted: #625344;
-  --accent: #b88a35;
+  --accent-ochre: #b88a35;
+  --accent-gold: #c49a32;
+  --accent: var(--accent-ochre);
   --accent-ink: #79501f;
   --surface-dark: #453428;
   --light: #fff9eb;
@@ -27,6 +29,11 @@
   --shadow-paper:
     0 2px 4px color-mix(in srgb, var(--shade) 12%, transparent),
     0 18px 42px color-mix(in srgb, var(--shade) 13%, transparent);
+}
+
+:root[data-palette="golden-ochre"] {
+  --accent: var(--accent-gold);
+  --rule: color-mix(in srgb, var(--accent) 48%, transparent);
 }
 
 *,

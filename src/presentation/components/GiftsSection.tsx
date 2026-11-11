@@ -47,10 +47,14 @@ export function GiftsSection({ content }: GiftsSectionProps) {
             </dd>
           </div>
         </dl>
-        <button className="text-link copy-iban" type="button" disabled={!iban} onClick={copyIban}>
-          Copia IBAN
-        </button>
-        {iban && <p className="gift-feedback" role="status">{copyFeedback}</p>}
+        {iban && (
+          <>
+            <button className="text-link copy-iban" type="button" onClick={copyIban}>
+              Copia IBAN
+            </button>
+            <p className="gift-feedback" role="status">{copyFeedback}</p>
+          </>
+        )}
       </div>
     </section>
   );

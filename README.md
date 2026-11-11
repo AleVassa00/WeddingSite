@@ -45,10 +45,8 @@ Maps. Due elementi con un evento ciascuno mostrano due luoghi distinti.
 
 Da ricevere o confermare dalla cliente
 
-- Data definitiva in formato `AAAA-MM-GG` e orari di cerimonia e ricevimento in formato `HH:mm`.
-- Nome, indirizzo e link Google Maps per ciascun luogo. Indicare se gli eventi condividono lo stesso indirizzo.
-- Frase personalizzata e, se desiderata, una foto approvata con testo alternativo. Per un file in `public/foto/` usare un percorso relativo come `./foto/nome-file.webp`.
-- Intestatario e IBAN confermati. Con `gifts.iban: null` compare il segnaposto e il comando di copia è disabilitato. La configurazione controlla la sintassi e il codice di controllo prima della build.
+- Frase personalizzata per il cartoncino.
+- Intestatario e IBAN confermati. Con `gifts.iban: null` compare il segnaposto. Il comando di copia appare quando è configurato un IBAN valido. La configurazione controlla la sintassi e il codice di controllo prima della build.
 - Testo introduttivo per i regali e messaggio finale. I testi presenti sono bozze da approvare.
 
 La copia automatica usa gli appunti del browser in un contesto sicuro, come
@@ -60,5 +58,14 @@ Gli effetti sonori della busta sono attivi per impostazione iniziale. Imposta
 `ENABLE_ENVELOPE_SFX` a `false` in `src/config/envelope-sfx.config.ts` per
 disattivare anche il caricamento delle clip. Le registrazioni e i dettagli
 della licenza sono descritti in [ARCHITECTURE.md](ARCHITECTURE.md#effetti-sonori).
+
+La foto dopo il cartoncino si imposta in `portrait` dentro `wedding.config.ts`.
+`public/photos/tramonto-ritratto.webp` riprende l'inquadratura verticale di
+`immagini/Tramonto.jpg` conservata nel commit `dfea38d`. La foto viene caricata
+quando l'invito è aperto e si avvicina all'area visibile.
+
+La prova con il castello si controlla con `ENABLE_HERO_PHOTO_BACKGROUND` in
+`src/config/hero-photo-background.config.ts`. Con `false` torna la hero avorio.
+Il velo si regola con `--castle-ivory-veil` in `src/styles/castle-hero.css`.
 
 La struttura del frontend è descritta in [ARCHITECTURE.md](ARCHITECTURE.md).

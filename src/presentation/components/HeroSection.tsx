@@ -15,6 +15,7 @@ interface HeroSectionProps {
   readonly navigation: readonly NavigationItem[];
   readonly cardRef: Ref<HTMLDivElement>;
   readonly headingRef: Ref<HTMLHeadingElement>;
+  readonly scrollTarget?: "#foto" | "#luogo";
 }
 
 export function HeroSection({
@@ -25,6 +26,7 @@ export function HeroSection({
   navigation,
   cardRef,
   headingRef,
+  scrollTarget = "#luogo",
 }: HeroSectionProps) {
   return (
     <section className="hero" id="inizio">
@@ -53,7 +55,7 @@ export function HeroSection({
           )}
           {content.photo && <img className="hero-photo" src={content.photo.src} alt={content.photo.alt} />}
           <p className="hero-intro">{content.phrase ?? content.phrasePlaceholder}</p>
-          <a className="scroll-cue" href="#luogo">
+          <a className="scroll-cue" href={scrollTarget}>
             <span>{content.scrollLabel}</span>
             <i aria-hidden="true">↓</i>
           </a>

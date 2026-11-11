@@ -1,7 +1,9 @@
 import type { WeddingLocation } from "@/src/domain/wedding/types";
+import { WeddingCountdown } from "./WeddingCountdown";
 
 interface LocationSectionProps {
   readonly locations: readonly WeddingLocation[];
+  readonly ceremonyStartsAt?: string;
 }
 
 const eventLabels = {
@@ -9,13 +11,15 @@ const eventLabels = {
   reception: "Ricevimento",
 } as const;
 
-export function LocationSection({ locations }: LocationSectionProps) {
+export function LocationSection({ locations, ceremonyStartsAt }: LocationSectionProps) {
   return (
     <section className="invitation-section celebration" id="luogo" aria-labelledby="celebration-title">
       <header className="invitation-section-heading">
         <span className="eyebrow">Il giorno</span>
         <h2 id="celebration-title">Cerimonia e ricevimento</h2>
       </header>
+
+      {ceremonyStartsAt && <WeddingCountdown startsAt={ceremonyStartsAt} />}
 
       <div className="venue-list">
         {locations.map(({ venue, events }) => (
@@ -35,7 +39,13 @@ export function LocationSection({ locations }: LocationSectionProps) {
             </dl>
 
             {venue?.mapUrl && (
-              <a className="text-link" href={venue.mapUrl} target="_blank" rel="noopener noreferrer">
+              <a
+                className="text-link"
+                href={venue.mapUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`Apri in Google Maps: ${venue.name}`}
+              >
                 Apri in Google Maps <span aria-hidden="true">↗</span>
               </a>
             )}

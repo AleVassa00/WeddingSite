@@ -1,0 +1,117 @@
+.site[data-phase="OPENED"][data-castle-hero] {
+  /* Sticky follows the page rather than an overflow container. */
+  overflow: clip;
+}
+
+.castle-hero {
+  --castle-photo-exit: 100svh;
+  --castle-ivory-veil: 8%;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: auto var(--castle-photo-exit);
+  background: var(--surface);
+}
+
+.castle-hero > .hero {
+  grid-area: 1 / 1;
+  align-self: start;
+  background: transparent;
+}
+
+.castle-hero .nav-mark,
+.castle-hero .hero-nav {
+  position: relative;
+  z-index: 1;
+}
+
+.site[data-phase="OPENED"] .castle-hero .hero-card-frame {
+  z-index: 1;
+}
+
+.castle-hero-photo {
+  position: sticky;
+  top: 0;
+  z-index: 0;
+  grid-area: 1 / 1 / 3 / 2;
+  align-self: start;
+  /* The spanning area includes the exit track. Subtract it to match the hero. */
+  height: calc(100% - var(--castle-photo-exit));
+  margin: 0;
+  pointer-events: none;
+}
+
+.castle-hero-photo::after {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(to bottom,
+      color-mix(in srgb, var(--paper-bright) 82%, transparent),
+      color-mix(in srgb, var(--paper-bright) 74%, transparent) 3.5rem,
+      transparent 8rem),
+    color-mix(in srgb, var(--paper-bright) var(--castle-ivory-veil), transparent);
+  content: "";
+}
+
+.castle-hero-photo picture {
+  position: absolute;
+  inset: 0;
+  display: block;
+}
+
+.castle-hero-photo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 60% 0%;
+  opacity: 0;
+  transition: opacity 0.35s var(--ease-out);
+}
+
+.castle-hero-photo img[data-ready] {
+  opacity: 1;
+}
+
+.site[data-castle-hero][data-opening] .envelope > :is(
+  .envelope-shadow, .envelope-back, .envelope-lining, .envelope-front, .envelope-flap, .seal
+) {
+  transition: opacity calc(var(--opening-duration) * 0.28) ease-in-out;
+}
+
+.site[data-castle-hero][data-phase="TRANSITIONING"] .envelope > :is(
+  .envelope-shadow, .envelope-back, .envelope-lining, .envelope-front, .envelope-flap, .seal
+) {
+  opacity: 0;
+}
+
+@media (width < 760px) {
+  .castle-hero .nav-mark {
+    justify-self: start;
+  }
+
+  .castle-hero .hero-nav {
+    grid-area: brand;
+    justify-self: end;
+    gap: 0.25rem clamp(0.65rem, 3vw, 1.4rem);
+    min-height: 0;
+  }
+}
+
+@media (min-width: 760px) {
+  .castle-hero-photo img {
+    object-position: 58% 4%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .castle-hero {
+    --castle-photo-exit: 0px;
+  }
+
+  .castle-hero-photo {
+    position: relative;
+    grid-area: 1 / 1;
+    align-self: stretch;
+    height: auto;
+  }
+}
