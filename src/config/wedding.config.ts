@@ -49,12 +49,13 @@ export const weddingConfig = defineWeddingConfig({
     phrasePlaceholder: "La frase degli sposi sarà aggiunta qui.",
     scrollLabel: "Scopri l’invito",
     photo: null,
-  },
-  portrait: {
-    src: "./photos/tramonto-ritratto.webp",
-    alt: `${couple.firstPartner} e ${couple.secondPartner} si baciano in riva al mare al tramonto.`,
-    width: 1200,
-    height: 1584,
+    revealPhoto: {
+      src: "./photos/tramonto-orizzontale.webp",
+      srcSet: "./photos/tramonto-orizzontale-1000.webp 1000w, ./photos/tramonto-orizzontale.webp 1672w",
+      alt: `${couple.firstPartner} e ${couple.secondPartner} si baciano in riva al mare al tramonto.`,
+      width: 1672,
+      height: 941,
+    },
   },
   locations: [
     {
@@ -62,7 +63,15 @@ export const weddingConfig = defineWeddingConfig({
       events: [{ kind: "ceremony", time: ceremonyTime }],
     },
     {
-      venue: receptionVenue,
+      venue: {
+        ...receptionVenue,
+        photo: {
+          src: "./photos/castello-tramonto.webp",
+          alt: "La torre e la piscina del Castello Rocca dei Cavalieri al tramonto.",
+          width: 1536,
+          height: 1024,
+        },
+      },
       events: [{ kind: "reception", time: receptionTime }],
     },
   ],

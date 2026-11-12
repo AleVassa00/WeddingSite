@@ -1,7 +1,5 @@
 import type { WeddingConfig } from "@/src/domain/wedding/types";
-import { ENABLE_HERO_PHOTO_BACKGROUND } from "@/src/config/hero-photo-background.config";
 import { useInvitationOpening } from "../hooks/useInvitationOpening";
-import { CastleHeroPhoto } from "../components/CastleHeroPhoto";
 import { GiftsSection } from "../components/GiftsSection";
 import { HeroSection } from "../components/HeroSection";
 import { InvitationGate } from "../components/InvitationGate";
@@ -27,25 +25,11 @@ export function WeddingInvitationView({
     openImmediately,
   } = useInvitationOpening();
 
-  const hero = (
-    <HeroSection
-      couple={config.couple}
-      date={config.date}
-      datePlaceholder={config.datePlaceholder}
-      content={config.hero}
-      navigation={config.navigation}
-      cardRef={cardRef}
-      headingRef={headingRef}
-      scrollTarget={config.portrait ? "#foto" : "#luogo"}
-    />
-  );
-
   return (
     <main
       className="site"
       data-phase={phase}
       data-opening={motion ? "" : undefined}
-      data-castle-hero={ENABLE_HERO_PHOTO_BACKGROUND ? "" : undefined}
       style={motion}
     >
       {!isOpen && (
@@ -60,9 +44,17 @@ export function WeddingInvitationView({
         />
       )}
       <div inert={!isOpen}>
-        {ENABLE_HERO_PHOTO_BACKGROUND ? (
-          <CastleHeroPhoto cardRef={cardRef} isOpen={isOpen}>{hero}</CastleHeroPhoto>
-        ) : hero}
+        <HeroSection
+          couple={config.couple}
+          date={config.date}
+          datePlaceholder={config.datePlaceholder}
+          content={config.hero}
+          navigation={config.navigation}
+          cardRef={cardRef}
+          headingRef={headingRef}
+          isOpen={isOpen}
+          scrollTarget={config.portrait ? "#foto" : "#luogo"}
+        />
         {isOpen && config.portrait && (
           <WeddingPortrait couple={config.couple} date={config.date} photo={config.portrait} />
         )}

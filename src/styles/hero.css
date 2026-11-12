@@ -2,14 +2,13 @@
   display: grid;
   grid-template-areas:
     "brand"
-    "card"
-    "navigation";
-  grid-template-rows: 3.5rem 1fr auto;
+    "card";
+  grid-template-rows: 3.5rem auto;
   min-height: 100svh;
   padding-inline: 0.75rem;
   background:
     radial-gradient(ellipse at 15% 5%, var(--hero-masthead), transparent 72%),
-    var(--hero-ground);
+    var(--paper);
 }
 
 .hero-nav {
@@ -20,7 +19,7 @@
   flex-wrap: wrap;
   gap: 0.25rem clamp(1rem, 6vw, 2.6rem);
   min-height: 3.75rem;
-  color: var(--ink-muted);
+  color: var(--accent-ink);
 }
 
 .hero-nav a {
@@ -34,7 +33,7 @@
 }
 
 .hero-nav a:hover {
-  color: var(--accent-ink);
+  color: var(--ink);
   text-decoration: underline;
   text-underline-offset: 0.24em;
 }
@@ -70,6 +69,18 @@
   margin: 0 auto 0.75rem;
   padding: clamp(2rem, 5vh, 4rem) clamp(1rem, 6vw, 4.5rem);
   text-align: center;
+}
+
+.hero-center::before,
+.hero-center::after {
+  position: absolute;
+  opacity: calc(1 - var(--photo-progress, 0));
+  pointer-events: none;
+  content: "";
+}
+
+.hero-center::before {
+  inset: 0;
   background:
     linear-gradient(150deg, color-mix(in srgb, var(--light) 75%, transparent), var(--paper)),
     var(--paper-grain) center / 620px,
@@ -77,25 +88,31 @@
   box-shadow: var(--shadow-paper);
 }
 
-.hero-center::before {
-  position: absolute;
+.hero-center::after {
   inset: clamp(8px, 2.5vw, 15px);
   border: 1px solid var(--rule);
   outline: 1px solid var(--rule-soft);
   outline-offset: -4px;
-  pointer-events: none;
-  content: "";
 }
 
-.hero-center > .eyebrow {
+.hero-copy {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  gap: inherit;
+  width: 100%;
+  min-width: 0;
+}
+
+.hero-copy > .eyebrow {
   display: flex;
   align-items: center;
   gap: 0.75rem;
   color: var(--accent-ink);
 }
 
-.hero-center > .eyebrow::before,
-.hero-center > .eyebrow::after {
+.hero-copy > .eyebrow::before,
+.hero-copy > .eyebrow::after {
   width: clamp(0.85rem, 5vw, 2.25rem);
   height: 1px;
   background: var(--rule);
@@ -201,9 +218,25 @@
 }
 
 @media (width < 760px) {
+  .hero {
+    align-content: start;
+  }
+
+  .hero .nav-mark {
+    justify-self: start;
+  }
+
+  .hero-nav {
+    grid-area: brand;
+    justify-self: end;
+    gap: 0.25rem clamp(0.65rem, 3vw, 1.4rem);
+    min-height: 0;
+  }
+
   .hero-center {
     align-self: start;
     min-height: calc((100svh - 4.25rem) * 0.89);
+    margin-block-end: 0;
     padding-block-end: clamp(1.5rem, 3svh, 2.5rem);
   }
 }

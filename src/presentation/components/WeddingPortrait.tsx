@@ -1,10 +1,10 @@
-import type { Couple, EventDate, WeddingPortraitContent } from "@/src/domain/wedding/types";
+import type { Couple, EventDate, WeddingPhoto } from "@/src/domain/wedding/types";
 import { Ampersand } from "./Ampersand";
 
 interface WeddingPortraitProps {
   readonly couple: Couple;
   readonly date: EventDate | null;
-  readonly photo: WeddingPortraitContent;
+  readonly photo: WeddingPhoto;
 }
 
 export function WeddingPortrait({ couple, date, photo }: WeddingPortraitProps) {

@@ -73,8 +73,9 @@
 }
 
 .venue-entry {
+  display: grid;
+  align-content: center;
   min-width: 0;
-  padding: clamp(1.35rem, 4vw, 2.25rem) clamp(0.85rem, 4vw, 2rem);
   border-block: 1px solid var(--rule);
   background: var(--venue-paper);
   overflow-wrap: anywhere;
@@ -83,6 +84,21 @@
 .venue-entry:only-child {
   justify-self: center;
   width: min(100%, 35rem);
+}
+
+.venue-entry:has(.venue-photo) {
+  align-content: start;
+}
+
+.venue-photo {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-bottom: 1px solid var(--rule);
+}
+
+.venue-details {
+  padding: clamp(1.35rem, 4vw, 2.25rem) clamp(0.85rem, 4vw, 2rem);
 }
 
 .venue-entry h3 {
@@ -123,12 +139,12 @@
 }
 
 .venue-times time {
-  color: var(--ink);
-  font-size: 1.35rem;
-  font-variant-numeric: tabular-nums;
+  color: var(--accent-ink);
+  font: 600 1.75rem/1.05 var(--font-display);
+  font-variant-numeric: lining-nums tabular-nums;
 }
 
-.venue-entry > a {
+.venue-details > a {
   margin-top: 0.75rem;
 }
 

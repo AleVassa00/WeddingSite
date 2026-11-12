@@ -24,31 +24,44 @@ export function LocationSection({ locations, ceremonyStartsAt }: LocationSection
       <div className="venue-list">
         {locations.map(({ venue, events }) => (
           <article className="venue-entry" key={events[0].kind}>
-            <h3>{venue?.name ?? "Luogo da confermare"}</h3>
-            {venue?.address && <address>{venue.address}</address>}
-
-            <dl className="venue-times">
-              {events.map(event => (
-                <div key={event.kind}>
-                  <dt>{eventLabels[event.kind]}</dt>
-                  <dd>
-                    {event.time ? <time dateTime={event.time}>{event.time}</time> : "Orario da confermare"}
-                  </dd>
-                </div>
-              ))}
-            </dl>
-
-            {venue?.mapUrl && (
-              <a
-                className="text-link"
-                href={venue.mapUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label={`Apri in Google Maps: ${venue.name}`}
-              >
-                Apri in Google Maps <span aria-hidden="true">↗</span>
-              </a>
+            {venue?.photo && (
+              <img
+                className="venue-photo"
+                src={venue.photo.src}
+                alt={venue.photo.alt}
+                width={venue.photo.width}
+                height={venue.photo.height}
+                loading="lazy"
+                decoding="async"
+              />
             )}
+            <div className="venue-details">
+              <h3>{venue?.name ?? "Luogo da confermare"}</h3>
+              {venue?.address && <address>{venue.address}</address>}
+
+              <dl className="venue-times">
+                {events.map(event => (
+                  <div key={event.kind}>
+                    <dt>{eventLabels[event.kind]}</dt>
+                    <dd>
+                      {event.time ? <time dateTime={event.time}>{event.time}</time> : "Orario da confermare"}
+                    </dd>
+                  </div>
+                ))}
+              </dl>
+
+              {venue?.mapUrl && (
+                <a
+                  className="text-link"
+                  href={venue.mapUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={`Apri in Google Maps: ${venue.name}`}
+                >
+                  Apri in Google Maps <span aria-hidden="true">↗</span>
+                </a>
+              )}
+            </div>
           </article>
         ))}
       </div>

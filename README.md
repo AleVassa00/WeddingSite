@@ -59,13 +59,9 @@ Gli effetti sonori della busta sono attivi per impostazione iniziale. Imposta
 disattivare anche il caricamento delle clip. Le registrazioni e i dettagli
 della licenza sono descritti in [ARCHITECTURE.md](ARCHITECTURE.md#effetti-sonori).
 
-La foto dopo il cartoncino si imposta in `portrait` dentro `wedding.config.ts`.
-`public/photos/tramonto-ritratto.webp` riprende l'inquadratura verticale di
-`immagini/Tramonto.jpg` conservata nel commit `dfea38d`. La foto viene caricata
-quando l'invito è aperto e si avvicina all'area visibile.
-
-La prova con il castello si controlla con `ENABLE_HERO_PHOTO_BACKGROUND` in
-`src/config/hero-photo-background.config.ts`. Con `false` torna la hero avorio.
-Il velo si regola con `--castle-ivory-veil` in `src/styles/castle-hero.css`.
+La variante sperimentale dissolve carta e cornice al termine dell’apertura e mantiene
+il testo sopra la foto impostata in `hero.revealPhoto` dentro `wedding.config.ts`.
+I WebP orizzontali derivano da `immagini/tramonto orizzontale.png`.
+La foto del ricevimento si imposta in `locations[].venue.photo`.
 
 La struttura del frontend è descritta in [ARCHITECTURE.md](ARCHITECTURE.md).

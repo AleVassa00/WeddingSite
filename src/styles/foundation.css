@@ -17,7 +17,6 @@
   --wax-relief: #e8d7b6;
   --hero-ground: color-mix(in srgb, var(--paper) 58%, var(--accent-wash));
   --hero-masthead: color-mix(in srgb, var(--paper-bright) 49%, var(--accent-wash));
-  --castle-caption-accent: color-mix(in srgb, var(--paper-bright) 69%, var(--accent-wash));
   --portrait-glow: color-mix(in srgb, var(--paper-bright) 69%, var(--accent-wash));
   --portrait-paper: color-mix(in srgb, var(--paper) 55%, var(--accent-wash));
   --celebration-surface: linear-gradient(155deg, var(--paper-bright), var(--hero-ground));

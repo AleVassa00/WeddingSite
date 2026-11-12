@@ -491,6 +491,18 @@
   animation: gate-clear var(--opening-duration) linear both;
 }
 
+.site[data-opening] .envelope > :is(
+  .envelope-shadow, .envelope-back, .envelope-lining, .envelope-front, .envelope-flap, .seal
+) {
+  transition: opacity calc(var(--opening-duration) * 0.28) ease-in-out;
+}
+
+.site[data-phase="TRANSITIONING"] .envelope > :is(
+  .envelope-shadow, .envelope-back, .envelope-lining, .envelope-front, .envelope-flap, .seal
+) {
+  opacity: 0;
+}
+
 @keyframes card-travel {
   /* Start lifting inside the pocket once the flap is out of the card's path. */
   0%,

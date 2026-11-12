@@ -1,0 +1,108 @@
+.hero-reveal {
+  --photo-masthead-gradient: linear-gradient(to bottom,
+    color-mix(in srgb, var(--hero-masthead) 82%, transparent),
+    color-mix(in srgb, var(--hero-masthead) 74%, transparent) 3.5rem,
+    transparent 8rem);
+  --photo-sky: color-mix(in srgb, var(--paper) 68%, var(--champagne));
+  --photo-height: 68%;
+  --photo-top: calc(100% - var(--photo-height));
+  --copy-x: 0px;
+  --copy-y: clamp(-7rem, -11.5svh, -4.5rem);
+  --copy-scale: 0.83;
+  position: relative;
+  min-height: 100lvh;
+}
+
+.hero-reveal[data-show-photo] {
+  --photo-progress: 1;
+}
+
+.hero-reveal :is(.nav-mark, .hero-nav, .hero-card-frame) {
+  position: relative;
+  z-index: 1;
+}
+
+.hero-reveal-media {
+  position: absolute;
+  inset: 0;
+  overflow: clip;
+  background: linear-gradient(var(--paper-bright), var(--photo-sky) 45%);
+  opacity: var(--photo-progress, 0);
+  pointer-events: none;
+}
+
+.hero-reveal-media img {
+  position: absolute;
+  inset: auto 0 0;
+  width: 100%;
+  height: var(--photo-height);
+  object-fit: cover;
+  object-position: 83% center;
+}
+
+.hero-reveal-media::after {
+  position: absolute;
+  inset: 0;
+  background:
+    var(--photo-masthead-gradient),
+    linear-gradient(to bottom, transparent calc(var(--photo-top) - 5%), var(--photo-sky) var(--photo-top),
+      color-mix(in srgb, var(--photo-sky) 65%, transparent) 44%, transparent 59%);
+  content: "";
+}
+
+.hero-reveal[data-show-photo] .hero-copy {
+  transform: translate(var(--copy-x), var(--copy-y)) scale(var(--copy-scale));
+}
+
+.hero-reveal .scroll-cue {
+  position: relative;
+}
+
+.hero-reveal .scroll-cue::before {
+  position: absolute;
+  inset: -6px -10px;
+  content: "";
+}
+
+@media (max-height: 640px) {
+  .hero-reveal {
+    --photo-height: 64%;
+  }
+}
+
+@media (min-width: 960px) and (min-aspect-ratio: 6/5) {
+  .hero-reveal {
+    --copy-x: max(-22vw, -27rem);
+    --copy-y: 0px;
+    --copy-scale: 0.8;
+  }
+
+  .hero-reveal-media img {
+    height: 100%;
+    object-position: 64% center;
+  }
+
+  .hero-reveal-media::after {
+    background:
+      var(--photo-masthead-gradient),
+      radial-gradient(ellipse 48% 57% at 18% 51%, color-mix(in srgb, var(--paper) 86%, transparent),
+        color-mix(in srgb, var(--paper) 72%, transparent) 41%,
+        color-mix(in srgb, var(--paper) 32%, transparent) 71%, transparent);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .hero-reveal {
+    --photo-dissolve: 850ms cubic-bezier(0.4, 0, 0.25, 1) 120ms;
+  }
+
+  .hero-reveal-media,
+  .hero-reveal .hero-center::before,
+  .hero-reveal .hero-center::after {
+    transition: opacity var(--photo-dissolve);
+  }
+
+  .hero-reveal .hero-copy {
+    transition: transform var(--photo-dissolve);
+  }
+}

@@ -29,9 +29,10 @@ export interface HeroContent {
   readonly phrasePlaceholder: string;
   readonly scrollLabel: string;
   readonly photo: { readonly src: string; readonly alt: string } | null;
+  readonly revealPhoto?: WeddingPhoto & { readonly srcSet: string };
 }
 
-export interface WeddingPortraitContent {
+export interface WeddingPhoto {
   readonly src: string;
   readonly alt: string;
   readonly width: number;
@@ -43,6 +44,7 @@ export interface WeddingLocation {
     readonly name: string;
     readonly address: string;
     readonly mapUrl: string | null;
+    readonly photo?: WeddingPhoto;
   } | null;
   readonly events: readonly {
     readonly kind: "ceremony" | "reception";
@@ -73,7 +75,7 @@ export interface WeddingConfig {
   readonly navigation: readonly NavigationItem[];
   readonly gate: InvitationGateContent;
   readonly hero: HeroContent;
-  readonly portrait?: WeddingPortraitContent;
+  readonly portrait?: WeddingPhoto;
   readonly locations: readonly WeddingLocation[];
   readonly gifts: GiftsContent;
   readonly farewell: string;
