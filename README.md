@@ -62,6 +62,7 @@ della licenza sono descritti in [ARCHITECTURE.md](ARCHITECTURE.md#effetti-sonori
 La variante sperimentale dissolve carta e cornice al termine dell’apertura e mantiene
 il testo sopra la foto impostata in `hero.revealPhoto` dentro `wedding.config.ts`.
 I WebP orizzontali derivano da `immagini/tramonto orizzontale.png`.
-La foto del ricevimento si imposta in `locations[].venue.photo`.
+Le foto dei luoghi si impostano in `locations[].venue.photo`. La cerimonia usa
+una copia WebP della fotografia locale della navata e può essere impaginata anche senza foto.
 
 La struttura del frontend è descritta in [ARCHITECTURE.md](ARCHITECTURE.md).

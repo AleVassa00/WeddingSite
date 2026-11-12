@@ -32,7 +32,7 @@ export const weddingConfig = defineWeddingConfig({
   couple,
   date,
   datePlaceholder,
-  ceremonyStartsAt: `${weddingDay}T${ceremonyTime}:00+02:00`, // Ora legale di Roma il giorno del matrimonio.
+  ceremonyStartsAt: `${weddingDay}T${ceremonyTime}:00+02:00`, // Europe/Rome is on summer time on the wedding date.
   navigation: [
     { label: "I luoghi", href: "#luogo" },
     { label: "Regali", href: "#regali" },
@@ -59,14 +59,26 @@ export const weddingConfig = defineWeddingConfig({
   },
   locations: [
     {
-      venue: ceremonyVenue,
+      venue: {
+        ...ceremonyVenue,
+        displayName: "Santa Croce in Gerusalemme",
+        photo: {
+          src: "./photos/chiesa.webp",
+          srcSet: "./photos/chiesa-720.webp 720w, ./photos/chiesa.webp 1200w",
+          alt: "La navata della basilica, con la volta affrescata e l’altare sul fondo.",
+          width: 1200,
+          height: 741,
+        },
+      },
       events: [{ kind: "ceremony", time: ceremonyTime }],
     },
     {
       venue: {
         ...receptionVenue,
+        displayName: "Rocca dei Cavalieri",
         photo: {
           src: "./photos/castello-tramonto.webp",
+          srcSet: "./photos/castello-tramonto-800.webp 800w, ./photos/castello-tramonto.webp 1536w",
           alt: "La torre e la piscina del Castello Rocca dei Cavalieri al tramonto.",
           width: 1536,
           height: 1024,

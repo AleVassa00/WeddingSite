@@ -4,6 +4,7 @@ import { GiftsSection } from "../components/GiftsSection";
 import { HeroSection } from "../components/HeroSection";
 import { InvitationGate } from "../components/InvitationGate";
 import { LocationSection } from "../components/LocationSection";
+import { WeddingCountdown } from "../components/WeddingCountdown";
 import { WeddingFooter } from "../components/WeddingFooter";
 import { WeddingPortrait } from "../components/WeddingPortrait";
 
@@ -55,15 +56,15 @@ export function WeddingInvitationView({
           isOpen={isOpen}
           scrollTarget={config.portrait ? "#foto" : "#luogo"}
         />
+        {isOpen && config.date && config.ceremonyStartsAt && (
+          <WeddingCountdown date={config.date} startsAt={config.ceremonyStartsAt} />
+        )}
         {isOpen && config.portrait && (
           <WeddingPortrait couple={config.couple} date={config.date} photo={config.portrait} />
         )}
-        <LocationSection
-          locations={config.locations}
-          ceremonyStartsAt={isOpen ? config.ceremonyStartsAt : undefined}
-        />
+        <LocationSection locations={config.locations} />
         <GiftsSection content={config.gifts} />
-        <WeddingFooter couple={config.couple} message={config.farewell} />
+        <WeddingFooter couple={config.couple} date={config.date} message={config.farewell} />
       </div>
     </main>
   );

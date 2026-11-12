@@ -48,6 +48,7 @@
     linear-gradient(to bottom, transparent calc(var(--photo-top) - 5%), var(--photo-sky) var(--photo-top),
       color-mix(in srgb, var(--photo-sky) 65%, transparent) 44%, transparent 59%);
   content: "";
+  pointer-events: none;
 }
 
 .hero-reveal[data-show-photo] .hero-copy {

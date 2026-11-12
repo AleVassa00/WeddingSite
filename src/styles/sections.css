@@ -1,229 +1,385 @@
-.invitation-section {
-  padding: var(--section-space) var(--gutter);
-  text-align: center;
-}
-
-.celebration {
-  background: var(--celebration-surface);
-}
-
-.invitation-section-heading {
-  display: grid;
-  justify-items: center;
-  gap: 0.55rem;
-  margin-inline: auto;
-}
-
-.invitation-section-heading .eyebrow {
+.section-title {
   color: var(--accent-ink);
-}
-
-.invitation-section-heading h2 {
   font: italic 500 var(--text-title)/0.98 var(--font-display);
   letter-spacing: -0.035em;
   text-wrap: balance;
 }
 
-.invitation-section-heading p {
-  max-width: 34ch;
-  margin-top: 0.35rem;
-  color: var(--ink-muted);
-  font: 500 var(--text-reading)/1.45 var(--font-reading);
-  text-wrap: pretty;
+.countdown-heading::after,
+.venue-kicker::before,
+.gifts-heading::before,
+.wedding-farewell::before {
+  width: var(--editorial-rule-width);
+  height: 1px;
+  background: var(--accent);
+  content: "";
+}
+
+.countdown-heading .eyebrow,
+.venue-kicker,
+.venue-times dt,
+.gift-details dt,
+.wedding-farewell time {
+  color: var(--accent-ink);
+  font: 700 var(--text-label)/1.45 var(--font-ui);
+  letter-spacing: var(--editorial-label-spacing);
+  text-transform: uppercase;
 }
 
 .wedding-countdown {
-  margin-top: 1.4rem;
+  position: relative;
+  padding: clamp(1.15rem, 2.5vw, 1.75rem) var(--gutter) clamp(1.2rem, 2.5vw, 1.65rem);
+  background: var(--paper);
+  text-align: center;
 }
 
-.wedding-countdown > .eyebrow {
+.wedding-countdown::before {
+  position: absolute;
+  inset: auto 0 100%;
+  height: var(--countdown-edge-size, 0px);
+  max-height: clamp(3.5rem, 13svh, 8rem);
+  background: linear-gradient(to top, var(--paper) 1px,
+    color-mix(in srgb, var(--paper) 72%, transparent) 26%,
+    color-mix(in srgb, var(--paper) 16%, transparent) 65%, transparent);
+  visibility: hidden;
+  pointer-events: none;
+  content: "";
+}
+
+.hero-reveal[data-show-photo] + .wedding-countdown::before {
+  visibility: visible;
+}
+
+.countdown-content {
+  max-width: var(--editorial-width);
+  margin-inline: auto;
+  container-type: inline-size;
+}
+
+.countdown-heading {
+  display: grid;
+  justify-items: center;
+  gap: 0.35rem;
+}
+
+.countdown-heading > time {
   color: var(--accent-ink);
+  font: italic 500 var(--text-subtitle)/1 var(--font-display);
+  letter-spacing: -0.035em;
+  text-wrap: balance;
 }
 
-.wedding-countdown dl {
-  display: flex;
-  justify-content: center;
-  gap: clamp(0.75rem, 4vw, 1.75rem);
-  margin: 0.5rem 0 0;
+.countdown-heading::after {
+  margin-top: 0.25rem;
 }
 
-.wedding-countdown dl > div {
+.countdown-units {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.65rem clamp(0.3rem, 2vw, 1rem);
+  max-width: 28rem;
+  margin: 0.75rem auto 0;
+}
+
+.countdown-units > div {
   display: flex;
   flex-direction: column-reverse;
-}
-
-.wedding-countdown dt {
-  color: var(--ink-muted);
-  font-size: var(--text-label);
-}
-
-.wedding-countdown dd {
-  margin: 0;
-  color: var(--countdown-ink);
-  font: 600 1.75rem/1.1 var(--font-display);
-  font-variant-numeric: tabular-nums;
-}
-
-.venue-list {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr));
-  gap: 1rem;
-  max-width: 53rem;
-  margin: clamp(1.6rem, 4vw, 2.5rem) auto 0;
-}
-
-.venue-entry {
-  display: grid;
-  align-content: center;
+  gap: 0.25rem;
   min-width: 0;
-  border-block: 1px solid var(--rule);
-  background: var(--venue-paper);
+}
+
+.countdown-units dt {
+  color: var(--ink-muted);
+  font: 600 var(--text-label)/1.4 var(--font-ui);
   overflow-wrap: anywhere;
 }
 
-.venue-entry:only-child {
-  justify-self: center;
-  width: min(100%, 35rem);
+.countdown-units dd {
+  margin: 0;
+  color: var(--accent-ink);
+  font: 600 clamp(2rem, 5vw, 2.75rem)/0.9 var(--font-display);
+  font-variant-numeric: lining-nums tabular-nums;
 }
 
-.venue-entry:has(.venue-photo) {
-  align-content: start;
+.countdown-ceremony {
+  margin-top: 0.55rem;
+  color: var(--ink-muted);
+  font: 600 var(--text-label)/1.45 var(--font-ui);
+}
+
+.countdown-ceremony time {
+  color: var(--accent-ink);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+@container (width < 14rem) {
+  .countdown-units {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.venue-section {
+  padding: var(--section-space) var(--gutter);
+}
+
+.venue-section--ceremony {
+  padding-block-start: clamp(1.5rem, 4vw, 3rem);
+  background: linear-gradient(var(--paper), var(--ceremony-surface) 50%, var(--paper));
+}
+
+.venue-section--reception {
+  padding-block-start: 0;
+  background: var(--paper);
+}
+
+.venue-layout,
+.gifts-layout {
+  display: grid;
+  gap: var(--editorial-gap);
+  max-width: var(--editorial-width);
+  margin-inline: auto;
+}
+
+.venue-heading {
+  display: grid;
+  gap: var(--editorial-heading-gap);
+  min-width: 0;
+}
+
+.venue-kicker {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.venue-kicker::before {
+  flex: none;
+}
+
+.venue-heading .section-title {
+  max-inline-size: 14ch;
+  overflow-wrap: anywhere;
+}
+
+.venue-media {
+  display: grid;
+  min-width: 0;
+  aspect-ratio: 3 / 2;
+  background: var(--surface);
+}
+
+.venue-section--ceremony .venue-media {
+  aspect-ratio: 1200 / 741;
 }
 
 .venue-photo {
   display: block;
   width: 100%;
-  height: auto;
-  border-bottom: 1px solid var(--rule);
+  height: 100%;
+  min-height: 0;
+  object-fit: cover;
+}
+
+.venue-photo-placeholder {
+  place-self: center;
+  padding: 1rem;
+  color: var(--ink-muted);
+  font: italic 500 var(--text-reading)/1.3 var(--font-reading);
+  text-align: center;
+}
+
+.venue-details,
+.venue-information {
+  display: grid;
+  justify-items: start;
+  min-width: 0;
 }
 
 .venue-details {
-  padding: clamp(1.35rem, 4vw, 2.25rem) clamp(0.85rem, 4vw, 2rem);
+  gap: clamp(0.85rem, 2.2vw, 1.5rem);
 }
 
-.venue-entry h3 {
-  font: 600 clamp(1.7rem, 3.7vw, 2.6rem)/1.05 var(--font-display);
+.venue-information {
+  gap: 0.5rem;
 }
 
-.venue-entry address {
-  margin-top: 0.45rem;
+.venue-details address {
+  max-width: var(--editorial-prose-width);
   color: var(--ink-muted);
   font: 500 var(--text-reading)/1.35 var(--font-reading);
   white-space: pre-line;
 }
 
 .venue-times {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 6.2rem), 1fr));
-  gap: 0.85rem;
-  margin: 1.25rem 0 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1.5rem;
+  margin: 0;
 }
 
-.venue-times dt,
-.gift-details dt {
-  color: var(--accent-ink);
-  font-size: var(--text-label);
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
+.venue-times > div {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  column-gap: 0.7rem;
 }
 
 .venue-times dd,
 .gift-details dd {
-  margin: 0.2rem 0 0;
-}
-
-.venue-times dd {
-  color: var(--ink-muted);
-  font: 500 1.15rem/1.2 var(--font-reading);
+  margin: 0;
+  color: var(--ink);
+  font: 500 1.35rem/1.35 var(--font-reading);
 }
 
 .venue-times time {
   color: var(--accent-ink);
-  font: 600 1.75rem/1.05 var(--font-display);
+  font: 600 1.9rem/1 var(--font-display);
   font-variant-numeric: lining-nums tabular-nums;
 }
 
-.venue-details > a {
-  margin-top: 0.75rem;
+.venue-information > .text-link,
+.copy-iban {
+  color: var(--accent-ink);
+  letter-spacing: var(--editorial-label-spacing);
 }
 
 .gifts {
-  border-block: 1px solid var(--rule-soft);
-  background: var(--gifts-surface);
+  padding: var(--section-space) var(--gutter);
+  background: linear-gradient(155deg, var(--paper), var(--gifts-surface) 34%, var(--accent-wash));
 }
 
-.gift-slip {
+.gifts-heading {
   display: grid;
-  justify-items: center;
-  gap: 0.7rem;
-  max-width: 36rem;
-  margin: 1.6rem auto 0;
-  padding: clamp(1.15rem, 4vw, 1.8rem);
-  border: 1px solid var(--rule);
-  background: var(--paper-bright);
-  box-shadow: var(--shadow-paper);
+  align-content: start;
+  gap: var(--editorial-heading-gap);
+}
+
+.gifts-heading p {
+  max-width: var(--editorial-prose-width);
+  color: var(--ink);
+  font: 500 var(--text-reading)/1.45 var(--font-reading);
+  text-wrap: pretty;
+}
+
+.gift-ledger {
+  min-width: 0;
+  padding-top: 1.35rem;
+  border-top: 1px solid var(--rule);
 }
 
 .gift-details {
   display: grid;
-  gap: 1rem;
-  width: 100%;
+  gap: 1.05rem;
   min-width: 0;
   margin: 0;
 }
 
 .gift-details dd {
-  font: 500 1.35rem/1.35 var(--font-reading);
+  margin-top: 0.2rem;
   overflow-wrap: anywhere;
 }
 
 .gift-iban {
-  font: 600 clamp(0.88rem, 3vw, 1.05rem)/1.6 ui-monospace, monospace;
+  font: 600 clamp(1rem, 2.8vw, 1.35rem)/1.6 ui-monospace, monospace;
   letter-spacing: 0.035em;
   user-select: all;
 }
 
 .gift-placeholder {
   color: var(--ink-muted);
+  font-size: clamp(1.45rem, 3.1vw, 1.9rem);
   font-style: italic;
 }
 
 .copy-iban {
+  margin-top: 0.65rem;
+  padding: 0;
   border: 0;
   border-bottom: 1px solid var(--rule);
-  padding: 0 0.4rem;
   background: transparent;
   cursor: pointer;
 }
 
 .gift-feedback {
+  margin-top: 0.5rem;
   color: var(--ink-muted);
   font-size: 0.875rem;
   overflow-wrap: anywhere;
 }
 
 .gift-feedback:empty {
-  height: 0;
-  margin-top: -0.7rem;
+  margin: 0;
 }
 
 .wedding-footer {
-  display: grid;
-  justify-items: center;
-  gap: 0.8rem;
-  padding: 2.35rem var(--gutter);
-  color: var(--paper);
+  padding: clamp(2.35rem, 5.2vw, 4.65rem) var(--gutter);
+  border-top: 1px solid var(--footer-rule);
   background: var(--footer-surface);
-  box-shadow: inset 0 2px var(--footer-rule);
+  color: var(--paper);
   text-align: center;
 }
 
-.wedding-footer p {
-  font: italic 500 var(--text-reading)/1.35 var(--font-reading);
+.wedding-farewell {
+  display: grid;
+  justify-items: center;
+  gap: var(--editorial-heading-gap);
+  max-width: var(--editorial-width);
+  margin-inline: auto;
 }
 
-.wedding-footer .monogram {
-  color: var(--footer-monogram);
-  font-size: 1.8rem;
+.wedding-farewell h2 {
+  font: 500 var(--text-title)/0.98 var(--font-display);
+  letter-spacing: -0.045em;
+  text-wrap: balance;
+}
+
+.wedding-farewell .ampersand {
+  color: var(--footer-accent);
+  font-size: 0.7em;
+}
+
+.wedding-farewell time {
+  color: var(--champagne);
+}
+
+.wedding-farewell p {
+  max-width: var(--editorial-prose-width);
+  margin-top: 0.45rem;
+  font: italic 500 var(--text-reading)/1.45 var(--font-reading);
+  text-wrap: pretty;
+}
+
+@media (min-width: 760px) {
+  .gifts-layout {
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    align-items: center;
+  }
+
+  .gift-ledger {
+    padding-block: 0;
+    padding-inline-start: clamp(1.6rem, 4vw, 3.75rem);
+    border-top: 0;
+    border-inline-start: 1px solid var(--rule);
+  }
+
+  .venue-section--ceremony .venue-layout {
+    grid-template-columns: minmax(0, 1.12fr) minmax(0, 0.88fr);
+    align-items: center;
+    column-gap: clamp(1.75rem, 5vw, 4.25rem);
+  }
+
+  .venue-section--reception .venue-media {
+    aspect-ratio: 5 / 3;
+  }
+
+  .venue-section--reception .venue-photo {
+    object-position: center 30%;
+  }
+
+  .venue-section--reception .venue-details {
+    grid-template-columns: minmax(0, 1.12fr) minmax(0, 0.88fr);
+    align-items: center;
+    column-gap: clamp(1.75rem, 5vw, 4.25rem);
+  }
 }

@@ -34,6 +34,7 @@ export interface HeroContent {
 
 export interface WeddingPhoto {
   readonly src: string;
+  readonly srcSet?: string;
   readonly alt: string;
   readonly width: number;
   readonly height: number;
@@ -42,6 +43,7 @@ export interface WeddingPhoto {
 export interface WeddingLocation {
   readonly venue: {
     readonly name: string;
+    readonly displayName?: string;
     readonly address: string;
     readonly mapUrl: string | null;
     readonly photo?: WeddingPhoto;
