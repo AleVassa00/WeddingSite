@@ -5,15 +5,28 @@
   --champagne: #d8c5a1;
   --ink: #352d25;
   --ink-muted: #625344;
-  --accent-ochre: #b88a35;
-  --accent-gold: #c49a32;
-  --accent: var(--accent-ochre);
-  --accent-ink: #79501f;
+  --accent: #c49a32;
+  --accent-wash: #e6d39a;
+  --accent-ink: #735015;
   --surface-dark: #453428;
   --light: #fff9eb;
-  --rule: color-mix(in srgb, var(--accent-ink) 32%, transparent);
-  --rule-soft: color-mix(in srgb, var(--ink) 15%, transparent);
+  --rule: color-mix(in srgb, var(--accent) 62%, transparent);
+  --rule-soft: color-mix(in srgb, var(--accent-ink) 23%, transparent);
   --shade: #462b15;
+  --envelope-ink: #25190f;
+  --wax-relief: #e8d7b6;
+  --hero-ground: color-mix(in srgb, var(--paper) 58%, var(--accent-wash));
+  --hero-masthead: color-mix(in srgb, var(--paper-bright) 49%, var(--accent-wash));
+  --castle-caption-accent: color-mix(in srgb, var(--paper-bright) 69%, var(--accent-wash));
+  --portrait-glow: color-mix(in srgb, var(--paper-bright) 69%, var(--accent-wash));
+  --portrait-paper: color-mix(in srgb, var(--paper) 55%, var(--accent-wash));
+  --celebration-surface: linear-gradient(155deg, var(--paper-bright), var(--hero-ground));
+  --venue-paper: color-mix(in srgb, var(--paper) 47%, var(--accent-wash));
+  --countdown-ink: var(--accent-ink);
+  --gifts-surface: color-mix(in srgb, var(--paper) 30%, var(--accent-wash));
+  --footer-surface: linear-gradient(140deg, color-mix(in srgb, var(--surface-dark) 79%, var(--accent)), var(--ink));
+  --footer-monogram: var(--accent-wash);
+  --footer-rule: var(--accent);
   --paper-grain: url("/textures/cotton-paper.webp");
   --font-display: "Cormorant Garamond Variable", Garamond, Georgia, serif;
   --font-reading: "EB Garamond Variable", Garamond, Georgia, serif;
@@ -29,11 +42,6 @@
   --shadow-paper:
     0 2px 4px color-mix(in srgb, var(--shade) 12%, transparent),
     0 18px 42px color-mix(in srgb, var(--shade) 13%, transparent);
-}
-
-:root[data-palette="golden-ochre"] {
-  --accent: var(--accent-gold);
-  --rule: color-mix(in srgb, var(--accent) 48%, transparent);
 }
 
 *,

@@ -8,8 +8,8 @@
   min-height: 100svh;
   padding-inline: 0.75rem;
   background:
-    radial-gradient(ellipse at 15% 5%, var(--paper-bright), transparent 72%),
-    var(--surface);
+    radial-gradient(ellipse at 15% 5%, var(--hero-masthead), transparent 72%),
+    var(--hero-ground);
 }
 
 .hero-nav {
@@ -198,6 +198,14 @@
 
 .scroll-cue:hover i {
   transform: translateY(3px);
+}
+
+@media (width < 760px) {
+  .hero-center {
+    align-self: start;
+    min-height: calc((100svh - 4.25rem) * 0.89);
+    padding-block-end: clamp(1.5rem, 3svh, 2.5rem);
+  }
 }
 
 @media (min-width: 760px) {

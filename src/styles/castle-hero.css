@@ -1,15 +1,18 @@
 .site[data-phase="OPENED"][data-castle-hero] {
-  /* Sticky follows the page rather than an overflow container. */
+  /* Keep clipping consistent across the handoff without adding a scroll container. */
   overflow: clip;
 }
 
 .castle-hero {
-  --castle-photo-exit: 100svh;
+  /* Use a stable image height while the browser toolbars move. */
+  --castle-photo-height: 100lvh;
+  --castle-photo-hold: 0px;
   --castle-ivory-veil: 8%;
   display: grid;
   grid-template-columns: minmax(0, 1fr);
-  grid-template-rows: auto var(--castle-photo-exit);
-  background: var(--surface);
+  /* The foreground sizes the first row. The photo uses the second row to exit. */
+  grid-template-rows: auto calc(var(--castle-photo-height) + var(--castle-photo-hold));
+  background: var(--hero-ground);
 }
 
 .castle-hero > .hero {
@@ -34,8 +37,7 @@
   z-index: 0;
   grid-area: 1 / 1 / 3 / 2;
   align-self: start;
-  /* The spanning area includes the exit track. Subtract it to match the hero. */
-  height: calc(100% - var(--castle-photo-exit));
+  height: var(--castle-photo-height);
   margin: 0;
   pointer-events: none;
 }
@@ -45,8 +47,8 @@
   inset: 0;
   background:
     linear-gradient(to bottom,
-      color-mix(in srgb, var(--paper-bright) 82%, transparent),
-      color-mix(in srgb, var(--paper-bright) 74%, transparent) 3.5rem,
+      color-mix(in srgb, var(--hero-masthead) 82%, transparent),
+      color-mix(in srgb, var(--hero-masthead) 74%, transparent) 3.5rem,
       transparent 8rem),
     color-mix(in srgb, var(--paper-bright) var(--castle-ivory-veil), transparent);
   content: "";
@@ -78,7 +80,8 @@
   inset: auto 0 0;
   display: grid;
   gap: 0.45rem;
-  padding: clamp(3rem, 9svh, 6rem) var(--gutter) clamp(2.25rem, 7svh, 5rem);
+  padding: clamp(3rem, 9svh, 6rem) var(--gutter)
+    calc(clamp(2.25rem, 7svh, 5rem) + (100lvh - 100svh));
   color: var(--paper-bright);
   background: linear-gradient(transparent, color-mix(in srgb, var(--ink) 73%, transparent) 43%);
   text-align: center;
@@ -94,6 +97,7 @@
 }
 
 .castle-hero-title-label {
+  color: var(--castle-caption-accent);
   font: 700 0.7rem/1.4 var(--font-ui);
   letter-spacing: 0.23em;
   text-transform: uppercase;
@@ -130,6 +134,21 @@
   }
 }
 
+@media (width < 760px) and (prefers-reduced-motion: no-preference) {
+  .castle-hero {
+    --castle-photo-hold: clamp(1.5rem, 4svh, 2.5rem);
+  }
+
+  .castle-hero > .hero {
+    /* End the foreground at the card's actual bottom edge. */
+    min-height: 0;
+  }
+
+  .castle-hero .hero-center {
+    margin-block-end: 0;
+  }
+}
+
 @media (min-width: 760px) {
   .castle-hero-photo img {
     object-position: 58% 4%;
@@ -149,7 +168,7 @@
 
 @media (prefers-reduced-motion: reduce) {
   .castle-hero {
-    --castle-photo-exit: 0px;
+    grid-template-rows: auto;
   }
 
   .castle-hero-photo {
@@ -172,6 +191,7 @@
   }
 
   .castle-hero-title-label {
+    color: inherit;
     font-size: 0.56rem;
     letter-spacing: 0.11em;
   }

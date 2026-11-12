@@ -14,8 +14,6 @@
   --envelope-pocket: var(--accent);
   --envelope-back: color-mix(in srgb, var(--accent) 82%, var(--shade));
   --envelope-lining: color-mix(in srgb, var(--accent) 67%, var(--shade));
-  --envelope-ink: #25190f;
-  --wax-relief: #e8d7b6;
   --envelope-fiber: url("/textures/envelope-cotton.webp");
   --fold-light: color-mix(in srgb, var(--light) 21%, transparent);
   --fold-shade: color-mix(in srgb, var(--shade) 22%, transparent);

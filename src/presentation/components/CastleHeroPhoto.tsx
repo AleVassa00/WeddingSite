@@ -23,6 +23,7 @@ export function CastleHeroPhoto({ children, cardRef, isOpen }: CastleHeroPhotoPr
     }
 
     const preference = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const viewport = window.visualViewport;
     let frame = 0;
 
     const schedule = () => {
@@ -39,10 +40,12 @@ export function CastleHeroPhoto({ children, cardRef, isOpen }: CastleHeroPhotoPr
 
         const stage = photo.getBoundingClientRect();
         const letter = card.getBoundingClientRect();
-        const left = Math.max(0, stage.left);
-        const top = Math.max(0, stage.top);
-        const right = Math.min(window.innerWidth, stage.right);
-        const bottom = Math.min(window.innerHeight, stage.bottom);
+        const viewportLeft = viewport?.offsetLeft ?? 0;
+        const viewportTop = viewport?.offsetTop ?? 0;
+        const left = Math.max(viewportLeft, stage.left);
+        const top = Math.max(viewportTop, stage.top);
+        const right = Math.min(viewportLeft + (viewport?.width ?? window.innerWidth), stage.right);
+        const bottom = Math.min(viewportTop + (viewport?.height ?? window.innerHeight), stage.bottom);
         const area = Math.max(0, right - left) * Math.max(0, bottom - top);
         const covered = Math.max(0, Math.min(right, letter.right) - Math.max(left, letter.left)) *
           Math.max(0, Math.min(bottom, letter.bottom) - Math.max(top, letter.top));
@@ -63,6 +66,8 @@ export function CastleHeroPhoto({ children, cardRef, isOpen }: CastleHeroPhotoPr
     observer.observe(caption);
     window.addEventListener("scroll", schedule, { passive: true });
     window.addEventListener("resize", schedule);
+    viewport?.addEventListener("scroll", schedule, { passive: true });
+    viewport?.addEventListener("resize", schedule);
     preference.addEventListener("change", schedule);
     schedule();
 
@@ -70,6 +75,8 @@ export function CastleHeroPhoto({ children, cardRef, isOpen }: CastleHeroPhotoPr
       observer.disconnect();
       window.removeEventListener("scroll", schedule);
       window.removeEventListener("resize", schedule);
+      viewport?.removeEventListener("scroll", schedule);
+      viewport?.removeEventListener("resize", schedule);
       preference.removeEventListener("change", schedule);
       window.cancelAnimationFrame(frame);
     };

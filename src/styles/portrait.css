@@ -2,9 +2,9 @@
   padding: clamp(2.1rem, 5vw, 4rem) var(--gutter);
   border-top: 1px solid var(--rule-soft);
   background:
-    linear-gradient(150deg, color-mix(in srgb, var(--paper-bright) 85%, transparent), var(--paper)),
+    linear-gradient(150deg, color-mix(in srgb, var(--portrait-glow) 85%, transparent), var(--portrait-paper)),
     var(--paper-grain) center / 620px,
-    var(--paper);
+    var(--portrait-paper);
 }
 
 .portrait-layout {
